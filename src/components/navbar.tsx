@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <header className="container m-auto max-w-7xl h-16">
+      <nav className="">
+        navbar
+      </nav>
+    </header>
+  );
+};
 
-export default Navbar
+export default Navbar;
