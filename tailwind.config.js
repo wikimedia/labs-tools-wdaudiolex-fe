@@ -5,7 +5,30 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Helvetica', 'Arial', 'sans-serif'],
+      },
+      colors: {
+        wikimedia: {
+          wikiblue: '#006699',
+          lightblue: '#3399ff',
+          darkblue: '#003366',
+          gray: '#666666',
+          lightgray: '#cccccc',
+          darkgray: '#333333',
+          green: '#339966',
+          lightgreen: '#66cc99',
+          darkgreen: '#006633',
+          red: '#cc3333',
+          lightred: '#ff6666',
+          darkred: '#990000',
+          yellow: '#ffcc33',
+          lightyellow: '#ffff99',
+          darkyellow: '#cc9900',
+        },
+      },
+    },
   },
   plugins: [],
 }
