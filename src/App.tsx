@@ -8,7 +8,6 @@ const App: React.FC = () => {
       <Header /> {/* Header component */}
       <Navbar />
     </>
-  );
-};
-
+  )
+}
 export default App;
