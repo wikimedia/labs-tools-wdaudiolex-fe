@@ -1,9 +1,9 @@
-import React from 'react';  
+import React from "react";
 
-interface ButtonProps {  
-  label: string;  
-  onClick: () => void;  
-}  
+interface ButtonProps {
+  label: string;
+  onClick: () => void;
+}
 
 const Button: React.FC<ButtonProps> = ({ label, onClick }) => {  
   return (  
@@ -17,4 +17,3 @@ const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
 };  
 
 export default Button;
-
