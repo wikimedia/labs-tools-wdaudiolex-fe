@@ -1,11 +1,20 @@
-import React from 'react'
+import React from 'react';  
 
-const Button: React.FC = () => {
-  return (
-    <div>
-      <p>This is the reusable button</p>
-    </div>
-  )
-}
+interface ButtonProps {  
+  label: string;  
+  onClick: () => void;  
+}  
 
-export default Button
+const Button: React.FC<ButtonProps> = ({ label, onClick }) => {  
+  return (  
+    <button  
+      className=" bg-white text-black  font-bold py-2 px-4 transition duration-200"  
+      onClick={onClick}  
+    >  
+      {label}  
+    </button>  
+  );  
+};  
+
+export default Button;
+
