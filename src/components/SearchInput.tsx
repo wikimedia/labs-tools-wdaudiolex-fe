@@ -1,44 +1,35 @@
-import React from "react";
+import { Search } from 'lucide-react'
+import React, { useState } from 'react'
 
-const SearchInput = () => {
+
+function SearchInput({ onSearch }) {
+  const [searchTerm, setSearchTerm] = useState('')
+  
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    onSearch(searchTerm)
+  }
+  
   return (
-    <form className="max-w-lg mx-auto">
-      <div className="flex">
-        <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
-          Search Input
-        </label>
-        <div className="relative w-full">
-          <input
-            type="search"
-            className="block p-2.5 w-full z-20 text-sm text-gray-950 bg-gray-50 rounded-lg border outline-none border-gray-300 focus:ring-wikimedia-wikiblue focus:border-wikimedia-wikiblue dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-            placeholder="Search Value..."
-            required
-          />
-          <button
-            type="submit"
-            className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-wikimedia-wikiblue rounded-e-lg border border-wikimedia-wikiblue hover:bg-wikimedia-darkblue focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            <svg
-              className="w-4 h-4"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              />
-            </svg>
-            <span className="sr-only">Search</span>
-          </button>
-        </div>
+    <form onSubmit={handleSubmit} className="flex items-center space-x-2">
+      <div className="relative">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search..."
+          className="pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
       </div>
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        Search
+      </button>
     </form>
-  );
-};
+  )
+}
 
-export default SearchInput;
+export default SearchInput
