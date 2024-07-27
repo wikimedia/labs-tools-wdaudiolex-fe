@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "./button";
 import { FaHome } from "react-icons/fa";
+import SearchInput from "./SearchInput";
 
 function Navbar() {
   const clicked = () => {
@@ -16,7 +17,8 @@ function Navbar() {
         <p className="pl-10 pt-7 font-thin">About</p>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-5 flex gap-10">
+        <SearchInput onSearch={''} />
         <Button label="Login" onClick={clicked} />
       </div>
     </div>
