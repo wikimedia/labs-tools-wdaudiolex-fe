@@ -12,7 +12,7 @@ export default {
       },
       colors: {
         wikimedia: {
-          wikiblue: '#006699',
+          wikiblue: '#327bb7',
           lightblue: '#3399ff',
           darkblue: '#003366',
           gray: '#666666',

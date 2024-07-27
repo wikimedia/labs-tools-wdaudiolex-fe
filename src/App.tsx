@@ -4,10 +4,7 @@ import Pagination from "./components/Pagination/Pagination";
 
 const App = () => {
     const handlePageChange = ({ selected }: { selected: number }) => {
-      // dispatch(updateListingQueryParams({ page: selected + 1 }));
-      // dispatch(getListingsThunk());
       console.log('hi');
-      
     };
   return (
     <>
