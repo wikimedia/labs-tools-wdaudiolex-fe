@@ -1,13 +1,12 @@
 import React from "react";
 import Header from "./layout/Header";
-import Navbar from "./components/navbar";
-const App = () => {
+import Navbar from "./components/Navbar";
 
 const App: React.FC = () => {
   return (
     <>
-    <Navbar />
-    
+      <Header /> {/* Header component */}
+      <Navbar />
     </>
   );
 };
