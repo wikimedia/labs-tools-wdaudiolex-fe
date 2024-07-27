@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Pagination: React.FC = () => {
+const Dropdown: React.FC = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const Pagination: React.FC = () => {
   )
 }
 
-export default Pagination
+export default Dropdown
