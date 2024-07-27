@@ -1,17 +1,20 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import Dropdown from "../components/dropdown";
 import { Outlet } from "react-router-dom";
-// import '../components/drodown.css';
-import { language } from "../Utils/data";
+import SearchInput from "../components/SearchInput";
+import Footer from "../components/Footer";
+import Pagination from "../components/Pagination/Pagination";
+import Navbar from "../components/Navbar";
 
-const Layout = () => {
-  
+const Layout: React.FC = () => {
+  const handlePageChange = ({ selected }: { selected: number }) => {
+    console.log("hi");
+  };
   return (
     <>
-    <Dropdown placeholder='English' options={language} />
-      {/* <Navbar /> */}
-      {/* <Outlet /> */}
+      <Navbar />
+      <Outlet />
+      <Pagination pageCount={24} onPageChange={handlePageChange} />
+      <Footer />
     </>
   );
 };
