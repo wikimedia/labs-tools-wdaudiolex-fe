@@ -1,5 +1,6 @@
 import { Search } from 'lucide-react'
 import React, { useState } from 'react'
+import Button from './button'
 
 
 function SearchInput({ onSearch }) {
@@ -22,12 +23,7 @@ function SearchInput({ onSearch }) {
         />
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
       </div>
-      <button
-        type="submit"
-        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        Search
-      </button>
+      <Button label='Search' onClick={()=>{}}/>
     </form>
   )
 }

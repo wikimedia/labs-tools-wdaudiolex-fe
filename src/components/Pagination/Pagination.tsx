@@ -19,7 +19,7 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount, onPageChange }) => {
         onPageChange={onPageChange}
         pageClassName='container'
         activeClassName='active'
-        className="flex items-center gap-8 text-xl font-semibold my-12"
+        className="flex items-center gap-8 text-xl font-semibold my-12"   
       />
     </div>
   );

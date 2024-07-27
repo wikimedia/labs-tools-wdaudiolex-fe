@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "./layout/Header";
 import Pagination from "./components/Pagination/Pagination";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -10,13 +9,11 @@ const App = () => {
     };
   return (
     <>
-      <Header />
       <Navbar />
       <Pagination
-        pageCount={24}
+        pageCount={4}
         onPageChange={handlePageChange}
       />
-    <Header />
     <Footer/>
     </>
   )

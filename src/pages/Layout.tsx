@@ -15,9 +15,10 @@ const Layout: React.FC = () => {
       <Navbar />
       <Outlet />
       <SearchInput onSearch={''}/>
-      <Footer />
       <Button label="Login" onClick={()=>{}} />
       <Pagination pageCount={24} onPageChange={handlePageChange} />
+      <Footer />
+
     </>
   );
 };
