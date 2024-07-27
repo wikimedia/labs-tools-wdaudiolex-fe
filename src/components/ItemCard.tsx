@@ -1,6 +1,7 @@
 import { PencilIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import SearchInput from "./SearchInput";
+import EditSearch from "./EditSearch";
 
 export interface Item {
   id: string;
@@ -93,7 +94,7 @@ const ItemCard = ({
                  {/* dropdown-menu */}
 
                  {/* search input */}
-                 <SearchInput />
+                 <EditSearch />
               </div>
               <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-neutral-700">
                 <button
@@ -119,3 +120,4 @@ const ItemCard = ({
 };
 
 export default ItemCard;
+
