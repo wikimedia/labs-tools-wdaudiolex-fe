@@ -1,4 +1,3 @@
- 
 import React from 'react';  
 
 interface ButtonProps {  
@@ -18,3 +17,4 @@ const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
 };  
 
 export default Button;
+
