@@ -5,6 +5,7 @@ import { Item } from "../components/ItemCard";
 
 const items: Item[] = [
   {
+    id: "1",
     label: "Wikipedia(Q52)",
     description: "Free online encyclopedia",
     imgUrl:
@@ -13,6 +14,7 @@ const items: Item[] = [
     foundedDate: "January 15, 2001",
   },
   {
+    id: "2",
     label: "Wikimedia Commons(Q565)",
     description: "Repository of free-use media files",
     imgUrl:
@@ -21,6 +23,7 @@ const items: Item[] = [
     foundedDate: "September 7, 2004",
   },
   {
+    id: "3",
     label: "Wikidata(Q2013)",
     description: "Free and open knowledge base",
     imgUrl:
@@ -36,6 +39,7 @@ const HomePage = () => {
       <div >
         {items.map((item) => (
           <ItemCard
+            id={item.id}
             totalFiles={item.totalFiles}
             foundedDate={item.foundedDate}
             imgUrl={item.imgUrl}
