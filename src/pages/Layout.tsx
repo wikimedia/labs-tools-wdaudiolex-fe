@@ -6,7 +6,7 @@ import Button from "../components/button";
 import Pagination from "../components/Pagination/Pagination";
 import Navbar from "../components/Navbar";
 
-const Layout: React.FC = () => {
+const Layout = () => {
       const handlePageChange = ({ selected }: { selected: number }) => {
         console.log("hi");
       };
@@ -14,10 +14,10 @@ const Layout: React.FC = () => {
     <>
      <Navbar />
       <Outlet />
-      <SearchInput onSearch={''}/>
+      {/* <SearchInput onSearch={''}/>
       <Footer />
       <Button label="Login" onClick={()=>{}} />
-      <Pagination pageCount={24} onPageChange={handlePageChange} />
+      <Pagination pageCount={24} onPageChange={handlePageChange} /> */}
     </>
   );
 };

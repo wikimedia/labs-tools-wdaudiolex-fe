@@ -33,6 +33,10 @@ const items: Item[] = [
   },
 ];
 
+   const handlePageChange = ({ selected }: { selected: number }) => {
+     console.log("hi");
+   };
+
 const HomePage = () => {
   return (
     <>
@@ -48,8 +52,11 @@ const HomePage = () => {
           />
         ))}
       </div>
+      
     </>
   );
 };
+
+
 
 export default HomePage;

@@ -24,7 +24,7 @@ const ItemCard = ({
 
   return (
     <div className="container m-auto px-3 mb-10">
-      <div className="flex flex-col gap-4 w-full group">
+      <div className="flex flex-col gap-4 w-full group-[]: ">
         <h1 className="text-gray-900 text-[1.20rem] capitalize group-hover:bg-opacity-85 p-2.5 border-b-[1px] border-gray-400">
           {label}
         </h1>
