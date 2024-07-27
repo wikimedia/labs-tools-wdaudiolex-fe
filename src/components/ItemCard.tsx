@@ -1,6 +1,5 @@
-
 import { PencilIcon } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
+import React from "react";
 
 export interface Item {
   label: string;
@@ -17,15 +16,13 @@ const ItemCard = ({
   totalFiles,
   foundedDate,
 }: Item) => {
-  const [showAdditional, setShowAdditional] = useState(false);
-
   return (
-    <div className="container m-auto px-3">
-      <div className="flex flex-col gap-4 w-full md:max-w-3xl group">
-        <h1 className="text-gray-800 text-lg capitalize bg-opacity-80 group-hover:bg-opacity-85 p-2.5 border-b-[1px] border-gray-400">
+    <div className="container m-auto px-3 mb-10">
+      <div className="flex flex-col gap-4 w-full group">
+        <h1 className="text-gray-900 text-[1.20rem] capitalize group-hover:bg-opacity-85 p-2.5 border-b-[1px] border-gray-400">
           {label}
         </h1>
-        <p className="text-base">{description}</p>
+        <p className="text-base italic max-w-xl">{description}</p>
         <div className="flex items-end gap-6 md:gap-8">
           <img
             className="w-24 h-24 md:w-28 md:h-28 object-cover rounded-xl"
@@ -33,19 +30,23 @@ const ItemCard = ({
             alt={label}
           />
           <button
-            onClick={() => setShowAdditional(!showAdditional)}
-            className="flex items-center gap-2 px-5 py-1 rounded-xl text-wikimedia-wikiblue border border-wikimedia-wikiblue hover:font-medium hover:opacity-85 transition-colors"
+            type="button"
+            className="hs-collapse-toggle flex items-center gap-2 text-sm px-5 rounded-xl text-wikimedia-wikiblue hover:text-wikimedia-darkblue border border-wikimedia-wikiblue hover:font-medium hover:opacity-85 transition-colors"
+            id="hs-collapse-toggle"
+            data-hs-collapse="#hs-collapse-heading"
           >
-            edit
-            <PencilIcon className="w-5 h-5" />
+            <span className="">Edit</span>
+            <PencilIcon className="w-3.5 h-3.5" />
           </button>
         </div>
-        {showAdditional && (
-          <div>
-            <p>Total Files: {totalFiles}</p>
-            <p>Founded Date: {foundedDate}</p>
-          </div>
-        )}
+        <div
+          id="hs-collapse-heading"
+          className="hs-collapse hidden w-full overflow-hidden transition-[height] duration-300"
+          aria-labelledby="hs-collapse-toggle"
+        >
+          <p>Total Files: {totalFiles}</p>
+          <p>Founded Date: {foundedDate}</p>
+        </div>
       </div>
     </div>
   );
@@ -111,6 +112,3 @@ export default ItemCard;
 // };
 
 // export default ItemCard;
-
-
-

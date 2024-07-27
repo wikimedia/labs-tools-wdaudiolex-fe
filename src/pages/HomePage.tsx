@@ -33,7 +33,7 @@ const items: Item[] = [
 const HomePage = () => {
   return (
     <>
-      <div>
+      <div >
         {items.map((item) => (
           <ItemCard
             totalFiles={item.totalFiles}
