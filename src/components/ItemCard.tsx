@@ -1,5 +1,6 @@
 import { PencilIcon } from "@heroicons/react/24/outline";
 import React from "react";
+import SearchInput from "./SearchInput";
 
 export interface Item {
   id: string;
@@ -87,11 +88,12 @@ const ItemCard = ({
                   Edit Item
                 </h3>
               </div>
+              {/* content */}
               <div className="p-4 overflow-y-auto">
-                <p className="text-gray-800 dark:text-neutral-400">
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content.
-                </p>
+                 {/* dropdown-menu */}
+
+                 {/* search input */}
+                 <SearchInput />
               </div>
               <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-neutral-700">
                 <button
@@ -103,7 +105,7 @@ const ItemCard = ({
                 </button>
                 <button
                   type="button"
-                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-wikimedia-wikiblue text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                 >
                   Save changes
                 </button>
