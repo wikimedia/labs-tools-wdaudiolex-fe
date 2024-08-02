@@ -2,15 +2,9 @@ import { PencilIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import SearchInput from "./SearchInput";
 import EditSearch from "./EditSearch";
+import { Item } from "../utils/types";
 
-export interface Item {
-  id: string;
-  label: string;
-  description: string;
-  imgUrl: string;
-  totalFiles: string;
-  foundedDate: string;
-}
+
 
 const ItemCard = ({
   id,

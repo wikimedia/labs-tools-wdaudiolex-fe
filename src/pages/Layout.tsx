@@ -4,16 +4,12 @@ import Footer from "../components/Footer";
 import Pagination from "../components/Pagination/Pagination";
 import Navbar from "../components/Navbar";
 
-const Layout: React.FC = () => {
-  const handlePageChange = ({ selected }: { selected: number }) => {
-    console.log("hi");
-  };
+const Layout = () => {
   return (
     <>
       <Navbar />
       <Outlet />
-      <Pagination pageCount={24} onPageChange={handlePageChange} />
-      <Footer />
+      
     </>
   );
 };

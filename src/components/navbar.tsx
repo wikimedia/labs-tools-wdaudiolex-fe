@@ -17,12 +17,12 @@ function Navbar() {
             <FaHome />
           </a>
         </div>
-        <a href="#">
+        <a href="about">
           <p className="pl-10 pt-7 font-thin hover:text-wikimedia-wikiblue">
             About
           </p>
         </a>
-    </div>
+      </div>
 
       <div className="mt-5">
         <div className="mt-5 pb-3 flex gap-10 ">
