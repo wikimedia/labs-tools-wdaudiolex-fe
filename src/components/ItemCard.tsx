@@ -12,7 +12,7 @@ const ItemCard = ({
   foundedDate,
 }: Item) => {
   const [seeMore, setSeeMore] = useState(false);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const btnText = seeMore ? "See Less" : "See More ";
 
   const handleMoreContent = () => {
