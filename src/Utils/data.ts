@@ -210,7 +210,7 @@ export const language = [
     value: "Igbo",
   },
 ];
-export const items: Item[] = [
+export const itemData: Item[] = [
   {
     id: "1",
     label: "Wikipedia(Q52)",

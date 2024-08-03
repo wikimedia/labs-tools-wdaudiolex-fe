@@ -5,4 +5,7 @@ export interface Item {
   imgUrl: string;
   totalFiles: string;
   foundedDate: string;
+  property?: string;
+  value?: string;
+  
 }
