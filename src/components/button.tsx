@@ -15,7 +15,7 @@ const Button: React.FC<ButtonProps> = ({ label, border, onClick }) => {
 
   return (
     <button
-      className={`px-4 py-2 flex items-center gap-2 border  border-wikimedia-wikiblue bg-${bgColor} text-${textColor} rounded-sm`}
+      className={`px-4 py-1 flex items-center gap-2 border  border-wikimedia-wikiblue bg-${bgColor} text-${textColor} rounded-sm`}
       onClick={onClick}
     >
       {label}

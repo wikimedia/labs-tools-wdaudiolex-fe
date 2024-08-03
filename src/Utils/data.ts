@@ -1,212 +1,211 @@
-import { Item } from "../utils/types";
 
 export const language = [
   {
-    key: 1,
+    label: "English",
     value: "English",
   },
   {
-    key: 2,
+    label: "German",
     value: "German",
   },
   {
-    key: 3,
+    label: "Spanish",
     value: "Spanish",
   },
   {
-    key: 4,
+    label: "French",
     value: "French",
   },
   {
-    key: 5,
+    label: "Italian",
     value: "Italian",
   },
   {
-    key: 6,
+    label: "Portuguese",
     value: "Portuguese",
   },
   {
-    key: 7,
+    label: "Dutch",
     value: "Dutch",
   },
   {
-    key: 8,
+    label: "Russian",
     value: "Russian",
   },
   {
-    key: 9,
+    label: "Chinese",
     value: "Chinese",
   },
   {
-    key: 10,
+    label: "Japanese",
     value: "Japanese",
   },
   {
-    key: 11,
+    label: "Korean",
     value: "Korean",
   },
   {
-    key: 12,
+    label: "Arabic",
     value: "Arabic",
   },
   {
-    key: 13,
+    label: "Hindi",
     value: "Hindi",
   },
   {
-    key: 14,
+    label: "Bengali",
     value: "Bengali",
   },
   {
-    key: 15,
+    label: "Turkish",
     value: "Turkish",
   },
   {
-    key: 16,
+    label: "Vietnamese",
     value: "Vietnamese",
   },
   {
-    key: 17,
+    label: "Thai",
     value: "Thai",
   },
   {
-    key: 18,
+    label: "Swedish",
     value: "Swedish",
   },
   {
-    key: 19,
+    label: "Norwegian",
     value: "Norwegian",
   },
   {
-    key: 20,
+    label: "Danish",
     value: "Danish",
   },
   {
-    key: 21,
+    label: "Finnish",
     value: "Finnish",
   },
   {
-    key: 22,
+    label: "Greek",
     value: "Greek",
   },
   {
-    key: 23,
+    label: "Czech",
     value: "Czech",
   },
   {
-    key: 24,
+    label: "Polish",
     value: "Polish",
   },
   {
-    key: 25,
+    label: "Hungarian",
     value: "Hungarian",
   },
   {
-    key: 26,
+    label: "Romanian",
     value: "Romanian",
   },
   {
-    key: 27,
+    label: "Bulgarian",
     value: "Bulgarian",
   },
   {
-    key: 28,
+    label: "Ukrainian",
     value: "Ukrainian",
   },
   {
-    key: 29,
+    label: "Hebrew",
     value: "Hebrew",
   },
   {
-    key: 30,
+    label: "Indonesian",
     value: "Indonesian",
   },
   {
-    key: 31,
+    label: "Malay",
     value: "Malay",
   },
   {
-    key: 32,
+    label: "Filipino",
     value: "Filipino",
   },
   {
-    key: 33,
+    label: "Swahili",
     value: "Swahili",
   },
   {
-    key: 34,
+    label: "Zulu",
     value: "Zulu",
   },
   {
-    key: 35,
+    label: "Afrikaans",
     value: "Afrikaans",
   },
   {
-    key: 36,
+    label: "Persian",
     value: "Persian",
   },
   {
-    key: 37,
+    label: "Pashto",
     value: "Pashto",
   },
   {
-    key: 38,
+    label: "Punjabi",
     value: "Punjabi",
   },
   {
-    key: 39,
+    label: "Tamil",
     value: "Tamil",
   },
   {
-    key: 40,
+    label: "Telugu",
     value: "Telugu",
   },
   {
-    key: 41,
+    label: "Gujarati",
     value: "Gujarati",
   },
   {
-    key: 42,
+    label: "Marathi",
     value: "Marathi",
   },
   {
-    key: 43,
+    label: "Kannada",
     value: "Kannada",
   },
   {
-    key: 44,
+    label: "Malayalam",
     value: "Malayalam",
   },
   {
-    key: 45,
+    label: "Sinhala",
     value: "Sinhala",
   },
   {
-    key: 46,
+    label: "Burmese",
     value: "Burmese",
   },
   {
-    key: 47,
+    label: "Khmer",
     value: "Khmer",
   },
   {
-    key: 48,
+    label: "Lao",
     value: "Lao",
   },
   {
-    key: 49,
+    label: "Mongolian",
     value: "Mongolian",
   },
   {
-    key: 50,
+    label: "Nepali",
     value: "Nepali",
   },
   {
-    key: 51,
+    label: "Kom",
     value: "Kom",
   },
   {
-    key: 52,
+    label: "Igbo",
     value: "Igbo",
   },
 ];
@@ -238,4 +237,25 @@ export const itemData: Item[] = [
     totalFiles: "Over 100 million data items",
     foundedDate: "October 30, 2012",
   },
+  {
+    id: "4",
+    label: "Wikidata(Q2013)",
+    description: "Free and open knowledge base",
+    imgUrl:
+      "https://media.istockphoto.com/id/1053318336/de/foto/business-meeting.jpg?s=1024x1024&w=is&k=20&c=JDuYN_9o7YEYIFXSYt1oITFL8LCs0rLtAX3gi9x-blQ=",
+    totalFiles: "Over 100 million data items",
+    foundedDate: "October 30, 2012",
+  },
+];
+export const colourOptions = [
+  { value: "ocean", label: "Ocean", isFixed: true },
+  { value: "blue", label: "Blue"},
+  { value: "purple", label: "Purple"},
+  { value: "red", label: "Red"},
+  { value: "orange", label: "Orange"},
+  { value: "yellow", label: "Yellow"},
+  { value: "green", label: "Green"},
+  { value: "forest", label: "Forest"},
+  { value: "slate", label: "Slate"},
+  { value: "silver", label: "Silver"},
 ];
