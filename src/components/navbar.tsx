@@ -5,8 +5,8 @@ import SearchInput from "./SearchInput";
 import { SelectDropdown } from "./SelectDropDown/SelectDropDown";
 import { language } from "../Utils/data";
 
-function Navbar() {    const [selectedOption, setSelectedOption] = useState(null);
-
+function Navbar() {
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const clicked = () => {
     alert("welcome to wikimedia ");

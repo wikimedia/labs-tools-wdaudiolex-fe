@@ -209,7 +209,7 @@ export const language = [
     value: "Igbo",
   },
 ];
-export const itemData: Item[] = [
+export const itemData = [
   {
     id: "1",
     label: "Wikipedia(Q52)",
@@ -259,3 +259,19 @@ export const colourOptions = [
   { value: "slate", label: "Slate"},
   { value: "silver", label: "Silver"},
 ];
+
+export const properties = [
+    {value: "Consist of", label: "Consist of"},
+    {value: "Type of", label: "Type of"},
+    {value: "Part of", label: "Part of"},
+    {value: "Belongs to", label: "Belongs to"}
+]
+export const values = [
+    {value: "Tree", label: "Tree"},
+    {value: "Car", label: "Car"},
+    {value: "House", label: "House"},
+    {value: "Person", label: "Person"},
+    {value: "Fruit", label: "Fruit"},
+    {value: "Animal", label: "Animal"},
+    {value: "School", label: "School"},
+]
