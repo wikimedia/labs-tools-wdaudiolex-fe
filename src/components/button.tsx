@@ -6,10 +6,12 @@ import React from "react";
 interface ButtonProps {
   label: string;
   onClick: (e?: any) => void;
-  border?: boolean
+  border?: boolean;
+  icon?: boolean;
+
 }
 
-const Button: React.FC<ButtonProps> = ({ label, border, onClick }) => {  
+const Button: React.FC<ButtonProps> = ({ label, border, icon, onClick }) => {  
   const bgColor = border ? "white" : "wikimedia-wikiblue";
   const textColor = border ? "wikimedia-wikiblue" : "white";
 
@@ -19,7 +21,7 @@ const Button: React.FC<ButtonProps> = ({ label, border, onClick }) => {
       onClick={onClick}
     >
       {label}
-      {border && <PencilIcon className="w-3.5 h-3.5" />}
+      {icon && <PencilIcon className="w-3.5 h-3.5" />}
     </button>
   );  
 };  

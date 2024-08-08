@@ -6,7 +6,7 @@ import { itemData } from "./Utils/data";
 import { ItemStore } from "../Zustand/ItemStore";
 
 const App = () => {
-  const { getItems, items, searchedItems } = ItemStore();
+  const { getItems, items, searchedItems } = ItemStore()
   const handlePageChange = ({ selected }: { selected: number }) => {
     console.log("hi");
   };

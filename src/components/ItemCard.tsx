@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Item } from "../utils/types";
 import Button from "./button";
-import EditModal from "./SelectDropDown/EditModal/EditModal";
+import EditModal from "./EditModal/EditModal";
+import { PropertyStore } from "../../Zustand/PropertyStore";
+import { ValueStore } from "../../Zustand/ValueStore";
+import { ItemStore } from "../../Zustand/ItemStore";
 
 const ItemCard = ({
   id,
@@ -13,13 +16,33 @@ const ItemCard = ({
 }: Item) => {
   const [seeMore, setSeeMore] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const { selectedProperty } = PropertyStore();
+  const { selectedValue } = ValueStore();
+  const { removeEdittedItem, getSelectedItem, selectedItem } = ItemStore();
   const btnText = seeMore ? "See Less" : "See More ";
 
   const handleMoreContent = () => {
     setSeeMore(!seeMore);
   };
-  const handleEdit = () => {
+  const openEditModal = (id: string) => {
+    alert(id);
+
     setShowModal(!showModal);
+    getSelectedItem(id);
+  };
+  const handleEdit = () => {
+    alert(selectedProperty + selectedValue);
+    setShowModal(!showModal);
+    const id = selectedItem.id;
+    const classifiedItem = {
+      ...selectedItem,
+      value: selectedValue,
+      property: selectedProperty,
+    };
+    console.log("classified item", classifiedItem);
+
+    //handle post request
+    removeEdittedItem(id);
   };
 
   return (
@@ -41,7 +64,8 @@ const ItemCard = ({
               <Button
                 label="Edit"
                 border={true}
-                onClick={() => setShowModal(!showModal)}
+                icon={true}
+                onClick={(id) => openEditModal(id)}
               />
             </div>
           </div>
@@ -60,7 +84,10 @@ const ItemCard = ({
 
         {/* modal content */}
         {showModal && (
-          <EditModal handleClose={()=> setShowModal(!showModal)} handleEdit={handleEdit} />
+          <EditModal
+            handleClose={() => setShowModal(!showModal)}
+            handleEdit={handleEdit}
+          />
         )}
       </div>
     </div>

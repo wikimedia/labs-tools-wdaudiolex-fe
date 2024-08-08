@@ -7,5 +7,13 @@ export interface Item {
   foundedDate: string;
   property?: string;
   value?: string;
-  
+}
+
+export interface Properties {
+    label: string;
+    value: string
+}
+export interface Values {
+  label: string;
+  value: string;
 }
