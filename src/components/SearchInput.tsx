@@ -1,23 +1,20 @@
-import { Search } from 'lucide-react'
-import React, { useState } from 'react'
-import Button from './button'
-import { ItemStore } from '../../Zustand/ItemStore'
-
+import { Search } from "lucide-react";
+import React, { useState } from "react";
+import Button from "./button";
+import { ItemStore } from "../../Zustand/ItemStore";
 
 function SearchInput({ onSearch }) {
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState("");
   const { getSearchedItems, searchedItems, items } = ItemStore();
-  
+
   const handleSubmit = (e: { preventDefault: () => void }) => {
-   e.preventDefault()
+    e.preventDefault();
     getSearchedItems(searchTerm);
     console.log("searched array");
-    alert(searchedItems);
-    
-  }
-  
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="flex items-center space-x-2">
+    <form onSubmit={handleSubmit} className="flex items-center gap-2">
       <div className="relative">
         <input
           type="text"
@@ -31,9 +28,9 @@ function SearchInput({ onSearch }) {
           size={20}
         />
       </div>
-      <Button label="Search" onClick={(e)=>handleSubmit(e)} />
+      <Button label="Search" onClick={(e) => handleSubmit(e)} />
     </form>
   );
 }
 
-export default SearchInput
+export default SearchInput;

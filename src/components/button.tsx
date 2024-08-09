@@ -16,13 +16,14 @@ const Button: React.FC<ButtonProps> = ({ label, border, icon, onClick }) => {
   const textColor = border ? "wikimedia-wikiblue" : "white";
 
   return (
-    <button
-      className={`px-4 py-1 flex items-center gap-2 border  border-wikimedia-wikiblue bg-${bgColor} text-${textColor} rounded-sm`}
-      onClick={onClick}
+    <div
+      className={`px-4 py-1.8  border  border-wikimedia-wikiblue bg-${bgColor} text-${textColor} rounded-sm flex justify-center`}
     >
-      {label}
-      {icon && <PencilIcon className="w-3.5 h-3.5" />}
-    </button>
+      <button onClick={onClick} className="flex items-center gap-2">
+        {label}
+        {icon && <PencilIcon className="w-3.5 h-3.5" />}
+      </button>
+    </div>
   );  
 };  
 

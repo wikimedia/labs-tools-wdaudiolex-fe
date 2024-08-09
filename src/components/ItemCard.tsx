@@ -16,8 +16,8 @@ const ItemCard = ({
 }: Item) => {
   const [seeMore, setSeeMore] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { selectedProperty } = PropertyStore();
-  const { selectedValue } = ValueStore();
+  const { selectedProperty, getSelectedProperty } = PropertyStore();
+  const { selectedValue, getSelectedValue } = ValueStore();
   const { removeEdittedItem, getSelectedItem, selectedItem } = ItemStore();
   const btnText = seeMore ? "See Less" : "See More ";
 
@@ -25,24 +25,28 @@ const ItemCard = ({
     setSeeMore(!seeMore);
   };
   const openEditModal = (id: string) => {
-    alert(id);
+    console.log("id", id);
 
     setShowModal(!showModal);
     getSelectedItem(id);
   };
   const handleEdit = () => {
-    alert(selectedProperty + selectedValue);
-    setShowModal(!showModal);
-    const id = selectedItem.id;
-    const classifiedItem = {
-      ...selectedItem,
-      value: selectedValue,
-      property: selectedProperty,
-    };
-    console.log("classified item", classifiedItem);
-
-    //handle post request
-    removeEdittedItem(id);
+    if (selectedProperty && selectedValue) {
+      setShowModal(!showModal);
+      const id = selectedItem?.id;
+      const classifiedItem = {
+        ...selectedItem,
+        value: selectedValue,
+        property: selectedProperty,
+      };
+      console.log("classified item", classifiedItem, "\n", selectedItem);
+      getSelectedProperty("");
+      getSelectedValue("");
+      //handle post request
+      removeEdittedItem(id ?? "");
+    } else {
+      setShowModal(!showModal);
+    }
   };
 
   return (
@@ -65,7 +69,7 @@ const ItemCard = ({
                 label="Edit"
                 border={true}
                 icon={true}
-                onClick={(id) => openEditModal(id)}
+                onClick={() => openEditModal(id)}
               />
             </div>
           </div>
