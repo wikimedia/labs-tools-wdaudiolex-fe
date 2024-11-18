@@ -51,7 +51,7 @@ import Button from '@mui/material/Button';
 
 const ExampleButton = () => (
   <Button variant="contained" color="primary">
-    Click Me
+    View Material UI Demo Page by Bovimaoco
   </Button>
 );
 
