@@ -10,14 +10,14 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 
-# Material UI Setup for Wiki-Hackkmer Frontend
+# Material UI Setup for Wiki-functionalities 
 
 This document explains how to set up Material UI in the Wiki-Hackkmer project.
 
 ## Installation Steps
 
 1. **Install Material UI Core Packages**
-   ```bash
+  
    npm install @mui/material @emotion/react @emotion/styled
 Install Material UI Icons
 
