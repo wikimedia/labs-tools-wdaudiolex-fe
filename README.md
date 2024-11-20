@@ -54,3 +54,169 @@ Before setting up the project, ensure you have the following installed:
    ```bash
    git clone <repository-url>
    cd <project-directory>
+
+
+   Installing dependencies:
+
+    npm install
+
+Setup Instructions
+Frontend Setup
+
+    Start the development server:
+
+npm run dev
+
+Build the project for production:
+
+npm run build
+
+Preview the production build:
+
+    npm run preview
+
+ESLint Configuration
+
+This project uses the Wikimedia ESLint configurations to enforce coding standards.
+Installation
+
+Install the Wikimedia ESLint configuration package:
+
+npm install --save-dev eslint-config-wikimedia
+
+Configuration
+
+Add a .eslintrc.json file to the root directory of your project. Below are examples of different configurations:
+
+For ES6 code:
+
+{
+  "extends": "wikimedia/client/es6"
+}
+
+For ES5 code:
+
+{
+  "extends": "wikimedia/client/es5"
+}
+
+Additional Configurations:
+
+    jQuery Support:
+
+{
+  "extends": [
+    "wikimedia/client/es6",
+    "wikimedia/jquery"
+  ]
+}
+
+MediaWiki Support:
+
+    {
+      "extends": [
+        "wikimedia/client/es6",
+        "wikimedia/mediawiki"
+      ]
+    }
+
+QUnit Test Suite:
+
+{
+  "extends": [
+    "wikimedia/mediawiki/qunit"
+  ]
+}
+
+Mocha Test Suite:
+
+{
+  "root": true,
+  "extends": [
+    "wikimedia/server",
+    "wikimedia/mocha"
+  ]
+}
+
+Selenium WDIO Test Suite:
+
+{
+  "root": true,
+  "extends": [
+    "wikimedia/selenium"
+  ]
+}
+
+Typical Node Project:
+
+{
+  "extends": "wikimedia/server"
+}
+
+Stylelint Configuration
+
+The project uses Wikimedia's Stylelint configurations for CSS.
+Installation
+
+Install the Stylelint configuration package:
+
+npm install -D stylelint-config-wikimedia
+
+Configuration
+
+Add a .stylelintrc.json file to the root directory of your project. Below are examples of different configurations:
+
+Basic Setup:
+
+{
+  "extends": "stylelint-config-wikimedia"
+}
+
+Modern Browser Support:
+
+{
+  "extends": "stylelint-config-wikimedia/support-modern"
+}
+
+MediaWiki Environment:
+
+{
+  "extends": [
+    "stylelint-config-wikimedia",
+    "stylelint-config-wikimedia/mediawiki"
+  ]
+}
+
+Combine with Browser Support:
+
+{
+  "extends": [
+    "stylelint-config-wikimedia/support-modern",
+    "stylelint-config-wikimedia/mediawiki"
+  ]
+}
+
+Override Rules:
+
+{
+  "extends": "stylelint-config-wikimedia/support-basic",
+  "rules": {
+    "@stylistic/max-empty-lines": null
+  }
+}
+
+Running Linting Tools
+
+    To run ESLint:
+
+npm run lint
+
+To run Stylelint:
+
+    npm run stylelint
+
+Development Guidelines
+
+    Write clean and consistent code following the linting rules.
+    Follow React best practices for component-based development.
+    Commit frequently with meaningful messages.
