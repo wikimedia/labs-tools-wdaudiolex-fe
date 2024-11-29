@@ -17,3 +17,7 @@ const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
 };  
 
 export default Button;
+button {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
