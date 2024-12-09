@@ -1,0 +1,14 @@
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Temporary files
+*.log
+.tmp/
+
+# Specific files or patterns to ignore
+coverage/
+*.min.js
