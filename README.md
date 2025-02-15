@@ -44,7 +44,13 @@ This is a React-based front-end project designed for building scalable and maint
 Before setting up the project, ensure you have the following installed:
 
 - **Node.js**: Version 14 or above
-- **npm**: Version 6 or above (comes with Node.js)
+Node.js: Download and install from [Node.js official site](https://nodejs.org/en). 
+Verify installation by running:
+bash
+node -v
+- **npm**: Version 6 or above (comes with Node.js) Check the version with:
+bash
+npm -v
 
 ---
 
