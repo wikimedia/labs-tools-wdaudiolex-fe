@@ -11,6 +11,14 @@ node_modules
 dist
 dist-ssr
 *.local
+Thumbs.db
+
+# Build output
+build/
+
+# Cache
+.cache/
+.eslintcache
 
 # Editor directories and files
 .vscode/*
