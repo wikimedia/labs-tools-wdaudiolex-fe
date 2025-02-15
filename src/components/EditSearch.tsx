@@ -42,3 +42,7 @@ const EditSearch = () => {
 };
 
 export default EditSearch;
+button {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}

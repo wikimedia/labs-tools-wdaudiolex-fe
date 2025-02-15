@@ -19,3 +19,8 @@
 .selected-option {
     margin-top: 10px;
 }
+button {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+  }
+  

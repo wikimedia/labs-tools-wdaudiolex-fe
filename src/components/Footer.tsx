@@ -39,3 +39,7 @@ const Footer = () => {
 };
 
 export default Footer;
+button {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}

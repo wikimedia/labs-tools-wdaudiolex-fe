@@ -120,4 +120,8 @@ const ItemCard = ({
 };
 
 export default ItemCard;
+button {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
 

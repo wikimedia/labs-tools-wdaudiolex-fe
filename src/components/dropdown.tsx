@@ -32,3 +32,7 @@ const DropdownMenu: FC<DropdownMenuProp> = ({ placeholder, options }) => {
 };
 
 export default DropdownMenu;
+button {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}

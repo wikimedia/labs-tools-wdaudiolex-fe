@@ -31,3 +31,7 @@ function SearchInput({ onSearch }) {
 }
 
 export default SearchInput
+button {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}

@@ -11,3 +11,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+button {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
