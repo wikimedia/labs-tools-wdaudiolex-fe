@@ -46,96 +46,124 @@ Before setting up the project, ensure you have the following installed:
 - **Node.js**: Version 14 or above
 Node.js: Download and install from [Node.js official site](https://nodejs.org/en). 
 Verify installation by running:
-bash
-node -v
+```bash
+  node -v
+```
 - **npm**: Version 6 or above (comes with Node.js) Check the version with:
-bash
-npm -v
+```bash
+  npm -v
+```
 
 ---
 
 ## Installation
 
+To install the project, follow these steps:
+
 1. Clone the repository:
    ```bash
    git clone <repository-url>
    cd <project-directory>
+   ```
 
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
 
-   Installing dependencies:
+---
 
-    npm install
+## Setup Instructions
 
-Setup Instructions
-Frontend Setup
+### Frontend Setup
 
-    Start the development server:
+1. Start the development server:
 
+```bash
 npm run dev
+```
 
-Build the project for production:
+2. Build the project for production:
 
+```bash
 npm run build
+```
 
-Preview the production build:
+3. Preview the production build:
 
-    npm run preview
+```bash
+npm run preview
+```
 
-ESLint Configuration
+### ESLint Configuration
 
 This project uses the Wikimedia ESLint configurations to enforce coding standards.
-Installation
 
-Install the Wikimedia ESLint configuration package:
+#### Installation
 
+- Install the Wikimedia ESLint configuration package:
+
+```bash
 npm install --save-dev eslint-config-wikimedia
+```
 
-Configuration
+#### Configuration
 
 Add a .eslintrc.json file to the root directory of your project. Below are examples of different configurations:
 
-For ES6 code:
+- For ES6 code:
 
+```json
 {
   "extends": "wikimedia/client/es6"
 }
+```
 
-For ES5 code:
+- For ES5 code:
 
+```json
 {
   "extends": "wikimedia/client/es5"
 }
+```
 
 Additional Configurations:
 
-    jQuery Support:
+- jQuery Support:
 
+```json
 {
   "extends": [
     "wikimedia/client/es6",
     "wikimedia/jquery"
   ]
 }
+```
 
-MediaWiki Support:
+- MediaWiki Support:
 
-    {
-      "extends": [
-        "wikimedia/client/es6",
-        "wikimedia/mediawiki"
-      ]
-    }
+```json
+{
+  "extends": [
+    "wikimedia/client/es6",
+    "wikimedia/mediawiki"
+  ]
+}
+```
 
-QUnit Test Suite:
+- QUnit Test Suite:
 
+```json
 {
   "extends": [
     "wikimedia/mediawiki/qunit"
   ]
 }
+```
 
-Mocha Test Suite:
+- Mocha Test Suite:
 
+```json
 {
   "root": true,
   "extends": [
@@ -143,86 +171,110 @@ Mocha Test Suite:
     "wikimedia/mocha"
   ]
 }
+```
 
-Selenium WDIO Test Suite:
+- Selenium WDIO Test Suite:
 
+```json
 {
   "root": true,
   "extends": [
     "wikimedia/selenium"
   ]
 }
+```
 
-Typical Node Project:
+- Typical Node Project:
 
+```json
 {
   "extends": "wikimedia/server"
 }
+```
 
-Stylelint Configuration
+### Stylelint Configuration
 
 The project uses Wikimedia's Stylelint configurations for CSS.
-Installation
 
-Install the Stylelint configuration package:
+#### Installation
 
+- Install the Stylelint configuration package:
+
+```bash
 npm install -D stylelint-config-wikimedia
+```
 
-Configuration
+#### Configuration
 
 Add a .stylelintrc.json file to the root directory of your project. Below are examples of different configurations:
 
-Basic Setup:
+- Basic Setup:
 
+```json
 {
   "extends": "stylelint-config-wikimedia"
 }
+```
 
-Modern Browser Support:
+- Modern Browser Support:
 
+```json
 {
   "extends": "stylelint-config-wikimedia/support-modern"
 }
+```
 
-MediaWiki Environment:
+- MediaWiki Environment:
 
+```json
 {
   "extends": [
     "stylelint-config-wikimedia",
     "stylelint-config-wikimedia/mediawiki"
   ]
 }
+```
 
-Combine with Browser Support:
+- Combine with Browser Support:
 
+```json
 {
   "extends": [
     "stylelint-config-wikimedia/support-modern",
     "stylelint-config-wikimedia/mediawiki"
   ]
 }
+```
 
-Override Rules:
+- Override Rules:
 
+```json
 {
   "extends": "stylelint-config-wikimedia/support-basic",
   "rules": {
     "@stylistic/max-empty-lines": null
   }
 }
+```
 
 Running Linting Tools
 
-    To run ESLint:
+- To run ESLint:
 
+```bash
 npm run lint
+```
 
-To run Stylelint:
+- To run Stylelint:
 
-    npm run stylelint
+```bash
+npm run stylelint
+```
 
-Development Guidelines
+---
 
-    Write clean and consistent code following the linting rules.
-    Follow React best practices for component-based development.
-    Commit frequently with meaningful messages.
+## Development Guidelines
+
+- Write clean and consistent code following the linting rules.
+- Follow React best practices for component-based development.
+- Commit frequently with meaningful messages.
