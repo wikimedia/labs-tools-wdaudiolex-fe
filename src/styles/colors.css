@@ -1,8 +1,37 @@
-/* src/styles/colors.css */
+/* src/styles/colors.css - MediaWiki color scheme */
 :root {
-    --primary-color: #3498db;
-    --secondary-color: #2ecc71;
-    --text-color: #333;
-    --background-color: #f9f9f9;
-    --error-color: #e74c3c;
-  }
+  /* Primary colors */
+  --primary-color: #3366cc;        /* Progressive blue */
+  --primary-color-hover: #2a4b8d;  /* Darker blue for hover */
+  --primary-color-light: #eaf3ff;  /* Light blue background */
+  
+  /* Destructive actions */
+  --destructive-color: #cc3333;    /* Destructive red */
+  --destructive-color-hover: #b32424; /* Darker red for hover */
+  --destructive-color-light: #fee7e6; /* Light red background */
+  
+  /* Success/constructive */
+  --success-color: #00af89;        /* Success green */
+  --success-color-hover: #008c6d;  /* Darker green for hover */
+  --success-color-light: #d5fdf4;  /* Light green background */
+  
+  /* Warning */
+  --warning-color: #fc3;           /* Warning yellow */
+  --warning-color-dark: #ac6600;   /* For text contrast on yellow */
+  --warning-color-light: #fef6e7;  /* Light yellow background */
+  
+  /* UI grays */
+  --background-color: #ffffff;     /* Base background */
+  --background-color-light: #f8f9fa; /* Light gray background */
+  --border-color: #eaecf0;         /* Border color */
+  
+  /* Text */
+  --text-color: #202122;           /* Primary text */
+  --text-color-secondary: #54595d; /* Secondary text */
+  --text-color-disabled: #72777d;  /* Disabled text */
+  
+  /* Component colors */
+  --component-bg-color: #f8f9fa;   /* Component background */
+  --component-border-color: #a2a9b1; /* Component border */
+  --component-hover-color: #c8ccd1; /* Component hover */
+}

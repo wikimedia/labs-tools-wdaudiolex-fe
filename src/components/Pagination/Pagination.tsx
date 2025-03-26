@@ -1,27 +1,67 @@
 import React from "react";
-import ReactPaginate from "react-paginate";
-import './pagination.css'
+import { Pagination as MuiPagination, PaginationItem, Box } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
 interface PaginationProps {
   pageCount: number;
   onPageChange: (selectedItem: { selected: number }) => void;
+  page?: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ pageCount, onPageChange }) => {
+// Styled components to match MediaWiki styles
+const StyledPagination = styled(MuiPagination)(({ theme }) => ({
+  "& .MuiPaginationItem-root": {
+    color: theme.palette.text.primary,
+    "&.Mui-selected": {
+      backgroundColor: "#3366cc", // MediaWiki blue
+      color: "white",
+      "&:hover": {
+        backgroundColor: "#2a4b8d", // Darker blue on hover
+      },
+    },
+    "&:hover": {
+      backgroundColor: "rgba(51, 102, 204, 0.1)", // Light blue background on hover
+    },
+  },
+}));
+
+const Pagination: React.FC<PaginationProps> = ({ 
+  pageCount, 
+  onPageChange,
+  page = 1
+}) => {
+  const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
+    onPageChange({ selected: value - 1 });
+  };
+
   return (
-    <div className=" mx-auto w-fit">
-      <ReactPaginate
-        previousLabel={"<<"}
-        nextLabel={">>"}
-        breakLabel={"..."}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={3}
-        onPageChange={onPageChange}
-        pageClassName='container'
-        activeClassName='active'
-        className="flex items-center gap-8 text-xl font-semibold my-12"   
+    <Box 
+      sx={{ 
+        display: "flex", 
+        justifyContent: "center",
+        my: 4
+      }}
+    >
+      <StyledPagination
+        count={pageCount}
+        page={page}
+        onChange={handleChange}
+        variant="outlined"
+        shape="rounded"
+        size="medium"
+        siblingCount={1}
+        boundaryCount={1}
+        renderItem={(item) => (
+          <PaginationItem
+            {...item}
+            sx={{ 
+              fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+              fontSize: "0.875rem"
+            }}
+          />
+        )}
       />
-    </div>
+    </Box>
   );
 };
 
