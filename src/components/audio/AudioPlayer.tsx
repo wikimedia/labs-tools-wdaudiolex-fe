@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   Box,
   IconButton,
@@ -22,7 +22,7 @@ interface AudioPlayerProps {
   audioUrl: string;
   title: string;
   showDownload?: boolean;
-  fallbackFormats?: string[]; // Array of alternative URLs to try if the main one fails
+  fallbackFormats?: string[]; // Add this type annotation here
 }
 
 const AudioPlayer: React.FC<AudioPlayerProps> = ({
@@ -48,29 +48,29 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   // Generate fallback URLs based on the original URL
-  const generateFallbackUrls = (): string[] => {
+  const generateFallbackUrls = useCallback((): string[] => {
     const url = new URL(audioUrl);
     const path = url.pathname;
     const basePath = path.substring(0, path.lastIndexOf('.')) || path;
     const generatedUrls: string[] = [];
-
+  
     // Only generate if not already in fallbackFormats
-    if (!fallbackFormats.some(format => format.includes('.mp3'))) {
+    if (!fallbackFormats?.some((format: string) => format.includes('.mp3'))) {
       generatedUrls.push(`${url.origin}${basePath}.mp3`);
     }
-    if (!fallbackFormats.some(format => format.includes('.ogg'))) {
+    if (!fallbackFormats?.some((format: string) => format.includes('.ogg'))) {
       generatedUrls.push(`${url.origin}${basePath}.ogg`);
     }
-    if (!fallbackFormats.some(format => format.includes('.wav'))) {
+    if (!fallbackFormats?.some((format: string) => format.includes('.wav'))) {
       generatedUrls.push(`${url.origin}${basePath}.wav`);
     }
-
+  
     // Add any explicitly provided fallback formats
-    return [...fallbackFormats, ...generatedUrls];
-  };
+    return [...(fallbackFormats || []), ...generatedUrls];
+  }, [audioUrl, fallbackFormats]);
 
   // Try the next fallback source
-  const tryNextSource = () => {
+  const tryNextSource = useCallback(() => {
     const allSources = [audioUrl, ...generateFallbackUrls()];
     const nextSource = allSources.find(source => !attemptedSources.includes(source));
 
@@ -81,11 +81,18 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       setError(null);
       setLoading(true);
     } else {
-      // If we've tried all sources, show a final error
       setError("Failed to load audio after trying all available formats.");
     }
-  };
+  }, [audioUrl, attemptedSources, generateFallbackUrls]);
 
+  // Volume control effect
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
+  // Main audio initialization effect
   useEffect(() => {
     // Reset state when URL changes
     setLoading(true);
@@ -100,69 +107,34 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       setAttemptedSources([currentSource]);
     }
 
-    // Check if audio format is supported
-    const audioElement = document.createElement('audio');
-    const fileExtension = currentSource.split('.').pop()?.toLowerCase();
-    let formatSupported = false;
-
-    // Check format support with more specific MIME types including codecs
-    if (fileExtension === 'mp3' && (
-      audioElement.canPlayType('audio/mpeg') !== '' ||
-      audioElement.canPlayType('audio/mp3') !== ''
-    )) {
-      formatSupported = true;
-      console.log('MP3 format is supported');
-    } else if (fileExtension === 'ogg' && (
-      audioElement.canPlayType('audio/ogg; codecs="vorbis"') !== '' ||
-      audioElement.canPlayType('audio/ogg') !== ''
-    )) {
-      formatSupported = true;
-      console.log('OGG format is supported');
-    } else if (fileExtension === 'wav' && (
-      audioElement.canPlayType('audio/wav') !== '' ||
-      audioElement.canPlayType('audio/wave') !== '' ||
-      audioElement.canPlayType('audio/x-wav') !== ''
-    )) {
-      formatSupported = true;
-      console.log('WAV format is supported');
-    }
-
-    if (!formatSupported) {
-      console.warn(`Audio format ${fileExtension} may not be fully supported in this browser`);
-    }
-
     // Create audio element
     const audio = new Audio();
     audioRef.current = audio;
-    audio.volume = volume / 100;
-    audio.preload = "auto"; // Try to preload the audio
-
-    // Add CORS attributes to handle potential cross-origin issues
+    audio.preload = "auto";
     audio.crossOrigin = "anonymous";
 
-    // Event listeners
-    audio.addEventListener("loadedmetadata", () => {
+    // Event handlers
+    const handleLoadedMetadata = () => {
       setDuration(audio.duration);
       setLoading(false);
-    });
+    };
 
-    audio.addEventListener("timeupdate", () => {
+    const handleTimeUpdate = () => {
       setPosition(audio.currentTime);
       if (canvasRef.current) {
         drawWaveformPosition(audio.currentTime / audio.duration);
       }
-    });
+    };
 
-    audio.addEventListener("ended", () => {
+    const handleEnded = () => {
       setIsPlaying(false);
       setPosition(0);
-    });
+    };
 
-    audio.addEventListener("error", (e) => {
+    const handleError = (e: Event) => {
       console.error("Audio error:", e, audio.error);
-      let errorMessage = "Failed to load audio file. The file may not exist or may be in an unsupported format.";
-
-      // Try to provide more specific error messages
+      let errorMessage = "Failed to load audio file.";
+      
       if (audio.error) {
         switch (audio.error.code) {
           case MediaError.MEDIA_ERR_ABORTED:
@@ -172,27 +144,24 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
             errorMessage = "Network error while loading audio.";
             break;
           case MediaError.MEDIA_ERR_DECODE:
-            errorMessage = `Audio format (${fileExtension}) not supported by your browser.`;
+            errorMessage = "Audio format not supported by your browser.";
             break;
           case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-            errorMessage = `Audio source not supported. This browser may not support ${fileExtension} format.`;
+            errorMessage = "Audio source not supported.";
             break;
         }
       }
 
-      // If we can try other formats, let's not show an error yet
       const canTryNextSource = generateFallbackUrls().some(url => !attemptedSources.includes(url));
-
       if (canTryNextSource) {
-        // Try the next source automatically
         tryNextSource();
       } else {
         setError(errorMessage);
         setLoading(false);
       }
-    });
+    };
 
-    audio.addEventListener("progress", () => {
+    const handleProgress = () => {
       if (audio.duration > 0) {
         for (let i = 0; i < audio.buffered.length; i++) {
           if (audio.buffered.start(i) <= audio.currentTime && audio.currentTime <= audio.buffered.end(i)) {
@@ -202,38 +171,40 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
           }
         }
       }
-    });
+    };
 
-    // Set source and load after adding event listeners
+    // Add event listeners
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
+    audio.addEventListener("progress", handleProgress);
+
+    // Set source
     try {
       audio.src = currentSource;
       audio.load();
-
-      // Attempt to fetch waveform data, but don't block audio playback
-      fetchAudioData().catch(err => {
-        console.warn("Waveform visualization failed, but audio may still play:", err);
-      });
+      fetchAudioData().catch(console.warn);
     } catch (err) {
       console.error("Error setting up audio:", err);
       setError("Failed to initialize audio player.");
       setLoading(false);
     }
 
-    // Cleanup on unmount
+    // Cleanup
     return () => {
       audio.pause();
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
+      audio.removeEventListener("progress", handleProgress);
       audio.src = "";
-      audio.removeEventListener("loadedmetadata", () => { });
-      audio.removeEventListener("timeupdate", () => { });
-      audio.removeEventListener("ended", () => { });
-      audio.removeEventListener("error", () => { });
-      audio.removeEventListener("progress", () => { });
     };
-  }, [currentSource, volume]);
+  }, [currentSource, generateFallbackUrls, tryNextSource, attemptedSources]);
 
-  const fetchAudioData = async () => {
+  const fetchAudioData = useCallback(async () => {
     try {
-      // Only attempt to fetch waveform data if browser supports Web Audio API
       if (!window.AudioContext && !(window as any).webkitAudioContext) {
         console.log("Web Audio API not supported in this browser. Skipping waveform visualization.");
         return;
@@ -250,20 +221,18 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
       try {
         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-
         if (canvasRef.current) {
           drawWaveform(audioBuffer);
         }
       } catch (decodeError) {
-        console.warn("Unable to decode audio data for waveform visualization. The audio may still play normally.", decodeError);
+        console.warn("Unable to decode audio data for waveform visualization.", decodeError);
       }
     } catch (error) {
       console.error("Error fetching audio data:", error);
-      // Don't set an error state here, as the audio might still play even if we can't visualize it
     }
-  };
+  }, [currentSource]);
 
-  const drawWaveform = (audioBuffer: AudioBuffer) => {
+  const drawWaveform = useCallback((audioBuffer: AudioBuffer) => {
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
@@ -272,14 +241,13 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
     const width = canvas.width;
     const height = canvas.height;
-    const channelData = audioBuffer.getChannelData(0); // Get the first channel
+    const channelData = audioBuffer.getChannelData(0);
     const step = Math.ceil(channelData.length / width);
 
     ctx.clearRect(0, 0, width, height);
     ctx.beginPath();
     ctx.moveTo(0, height / 2);
 
-    // Draw the waveform
     for (let i = 0; i < width; i++) {
       let min = 1.0;
       let max = -1.0;
@@ -296,9 +264,9 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       ctx.fillStyle = "#90CAF9";
       ctx.fillRect(i, y1, 1, y2 - y1);
     }
-  };
+  }, []);
 
-  const drawWaveformPosition = (percent: number) => {
+  const drawWaveformPosition = useCallback((percent: number) => {
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
@@ -308,13 +276,12 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
     const width = canvas.width;
     const playPosition = width * percent;
 
-    // Redraw from previous frame
     ctx.globalCompositeOperation = 'source-over';
     ctx.fillStyle = "#1976D2";
     ctx.fillRect(0, 0, playPosition, canvas.height);
-  };
+  }, []);
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
@@ -323,34 +290,30 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       }
       setIsPlaying(!isPlaying);
     }
-  };
+  }, [isPlaying]);
 
-  const toggleMute = () => {
+  const toggleMute = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.muted = !isMuted;
       setIsMuted(!isMuted);
     }
-  };
+  }, [isMuted]);
 
-  const handlePositionChange = (_: Event, newValue: number | number[]) => {
+  const handlePositionChange = useCallback((_: Event, newValue: number | number[]) => {
     const newPosition = newValue as number;
     setPosition(newPosition);
     if (audioRef.current) {
       audioRef.current.currentTime = newPosition;
     }
-  };
+  }, []);
 
-  const handleVolumeChange = (_: Event, newValue: number | number[]) => {
+  const handleVolumeChange = useCallback((_: Event, newValue: number | number[]) => {
     const newVolume = newValue as number;
     setVolume(newVolume);
-    if (audioRef.current) {
-      audioRef.current.volume = newVolume / 100;
-    }
-  };
+  }, []);
 
-  const handlePlaybackRateChange = () => {
+  const handlePlaybackRateChange = useCallback(() => {
     if (audioRef.current) {
-      // Cycle through playback rates: 1.0, 1.25, 1.5, 0.75
       const rates = [1, 1.25, 1.5, 0.75];
       const currentIndex = rates.indexOf(playbackRate);
       const nextIndex = (currentIndex + 1) % rates.length;
@@ -359,23 +322,22 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       audioRef.current.playbackRate = newRate;
       setPlaybackRate(newRate);
     }
-  };
+  }, [playbackRate]);
 
-  const handleDownload = () => {
+  const handleDownload = useCallback(() => {
     const link = document.createElement("a");
     link.href = currentSource;
     link.download = title || "audio-file";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
+  }, [currentSource, title]);
 
-  // Format time (seconds) to mm:ss
-  const formatTime = (time: number): string => {
+  const formatTime = useCallback((time: number): string => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
+  }, []);
 
   if (loading) {
     return (
@@ -394,13 +356,11 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
         <Typography color="error" variant="body2" sx={{ mb: 1 }}>{error}</Typography>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          {/* Show file format information */}
           <Typography variant="caption" sx={{ mb: 1 }}>
             Current format: {currentSource.split('.').pop()?.toUpperCase() || 'Unknown'}
           </Typography>
 
           <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-            {/* Try another format manually */}
             {generateFallbackUrls().some(url => !attemptedSources.includes(url)) && (
               <Button
                 variant="outlined"
@@ -412,7 +372,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
               </Button>
             )}
 
-            {/* Open direct link */}
             <Button
               variant="outlined"
               size="small"
@@ -423,7 +382,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
               Open Audio File
             </Button>
 
-            {/* Show native audio player as fallback */}
             <Button
               variant="outlined"
               size="small"
@@ -434,7 +392,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
             </Button>
           </Box>
 
-          {/* Native HTML5 audio fallback */}
           {showNativePlayer && (
             <Box sx={{ mt: 2, p: 1, bgcolor: "#f5f5f5", borderRadius: 1 }}>
               <Typography variant="caption" sx={{ display: "block", mb: 1 }}>
@@ -535,4 +492,4 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   );
 };
 
-export default AudioPlayer; 
+export default AudioPlayer;
