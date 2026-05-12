@@ -51,17 +51,17 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const generateFallbackUrls = useCallback((): string[] => {
     const url = new URL(audioUrl);
     const path = url.pathname;
-    const basePath = path.substring(0, path.lastIndexOf('.')) || path;
+    const basePath = path.substring(0, path.lastIndexOf(".")) || path;
     const generatedUrls: string[] = [];
   
     // Only generate if not already in fallbackFormats
-    if (!fallbackFormats?.some((format: string) => format.includes('.mp3'))) {
+    if (!fallbackFormats?.some((format: string) => format.includes(".mp3"))) {
       generatedUrls.push(`${url.origin}${basePath}.mp3`);
     }
-    if (!fallbackFormats?.some((format: string) => format.includes('.ogg'))) {
+    if (!fallbackFormats?.some((format: string) => format.includes(".ogg"))) {
       generatedUrls.push(`${url.origin}${basePath}.ogg`);
     }
-    if (!fallbackFormats?.some((format: string) => format.includes('.wav'))) {
+    if (!fallbackFormats?.some((format: string) => format.includes(".wav"))) {
       generatedUrls.push(`${url.origin}${basePath}.wav`);
     }
   
@@ -236,7 +236,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const width = canvas.width;
@@ -270,13 +270,13 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const width = canvas.width;
     const playPosition = width * percent;
 
-    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalCompositeOperation = "source-over";
     ctx.fillStyle = "#1976D2";
     ctx.fillRect(0, 0, playPosition, canvas.height);
   }, []);
@@ -336,7 +336,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const formatTime = useCallback((time: number): string => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   }, []);
 
   if (loading) {
@@ -357,7 +357,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <Typography variant="caption" sx={{ mb: 1 }}>
-            Current format: {currentSource.split('.').pop()?.toUpperCase() || 'Unknown'}
+            Current format: {currentSource.split(".").pop()?.toUpperCase() || "Unknown"}
           </Typography>
 
           <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
@@ -421,7 +421,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
           ref={canvasRef}
           width={500}
           height={60}
-          style={{ width: '100%', height: '60px', background: '#f5f5f5', borderRadius: '4px' }}
+          style={{ width: "100%", height: "60px", background: "#f5f5f5", borderRadius: "4px" }}
         />
       </Box>
 
@@ -439,15 +439,15 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
             aria-label="audio position"
             size="small"
           />
-          <Box sx={{ position: 'relative', height: '4px', mb: 1, borderRadius: '2px', backgroundColor: '#e0e0e0' }}>
+          <Box sx={{ position: "relative", height: "4px", mb: 1, borderRadius: "2px", backgroundColor: "#e0e0e0" }}>
             <LinearProgress
               variant="determinate"
               value={loadProgress}
               sx={{
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                backgroundColor: 'transparent'
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                backgroundColor: "transparent"
               }}
             />
           </Box>

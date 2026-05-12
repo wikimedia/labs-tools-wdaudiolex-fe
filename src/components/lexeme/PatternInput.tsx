@@ -10,10 +10,8 @@ import {
   IconButton,
   Collapse
 } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 interface PatternInputProps {
   onPatternSubmit: (pattern: string) => void;

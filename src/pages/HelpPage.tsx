@@ -10,7 +10,7 @@ import {
   Divider,
   Link
 } from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const HelpPage: React.FC = () => {
   return (

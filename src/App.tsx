@@ -10,7 +10,7 @@ import { WikiThemeProvider } from "./components/wikimedia";
 const App = () => {
   return (
     <WikiThemeProvider>
-      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />

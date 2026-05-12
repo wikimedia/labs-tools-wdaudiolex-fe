@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { 
   Button, 
   Dialog, 
@@ -7,9 +7,9 @@ import {
   IconButton, 
   Typography,
   Box
-} from '@mui/material';
-import { Close as CloseIcon, MicOutlined } from '@mui/icons-material';
-import AddPronunciationForm from './AddPronunciationForm';
+} from "@mui/material";
+import { Close as CloseIcon, MicOutlined } from "@mui/icons-material";
+import AddPronunciationForm from "./AddPronunciationForm";
 
 interface AudioFile {
   id: string;
@@ -29,16 +29,16 @@ interface Lexeme {
 interface AddPronunciationButtonProps {
   lexeme: Lexeme;
   audioFile: AudioFile;
-  variant?: 'button' | 'icon';
-  size?: 'small' | 'medium' | 'large';
+  variant?: "button" | "icon";
+  size?: "small" | "medium" | "large";
   onSuccess?: () => void;
 }
 
 const AddPronunciationButton: React.FC<AddPronunciationButtonProps> = ({
   lexeme,
   audioFile,
-  variant = 'button',
-  size = 'medium',
+  variant = "button",
+  size = "medium",
   onSuccess
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -65,7 +65,7 @@ const AddPronunciationButton: React.FC<AddPronunciationButtonProps> = ({
 
   return (
     <>
-      {variant === 'button' ? (
+      {variant === "button" ? (
         <Button
           variant="contained"
           color="primary"
@@ -95,11 +95,11 @@ const AddPronunciationButton: React.FC<AddPronunciationButtonProps> = ({
         PaperProps={{
           sx: {
             borderRadius: 2,
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)"
           }
         }}
       >
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2 }}>
+        <DialogTitle sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", p: 2 }}>
           <Typography variant="inherit" component="span">Add Pronunciation</Typography>
           <IconButton
             edge="end"

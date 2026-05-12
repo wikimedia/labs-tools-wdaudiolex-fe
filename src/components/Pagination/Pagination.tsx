@@ -55,7 +55,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <PaginationItem
             {...item}
             sx={{ 
-              fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+              fontFamily: "\"Helvetica Neue\", Helvetica, Arial, sans-serif",
               fontSize: "0.875rem"
             }}
           />

@@ -11,11 +11,13 @@ import {
   Alert,
   CircularProgress,
   Divider,
-  Button,
-  SelectChangeEvent
+  Button
 } from "@mui/material";
-import { lexemeApi } from "../../services/api";
+
+import type { SelectChangeEvent } from "@mui/material";
 import { WikiMessage } from "../wikimedia";
+
+// import { lexemeApi } from "../../services/api";
 
 interface AudioFile {
   id: string;
@@ -165,7 +167,7 @@ const AddPronunciationForm: React.FC<AddPronunciationFormProps> = ({
             color="primary"
             disabled={loading}
           >
-            {loading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : "Add Pronunciation"}
+            {loading ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Add Pronunciation"}
           </Button>
         </Box>
       </form>

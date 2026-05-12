@@ -1,7 +1,7 @@
-import React from 'react';
-import { Box, Typography, Divider, Card, CardContent } from '@mui/material';
-import AudioPlayer from '../audio/AudioPlayer';
-import AddPronunciationButton from './AddPronunciationButton';
+import React from "react";
+import { Box, Typography, Divider, Card, CardContent } from "@mui/material";
+import AudioPlayer from "../audio/AudioPlayer";
+import AddPronunciationButton from "./AddPronunciationButton";
 
 // Example data with multiple format options
 const EXAMPLE_AUDIO = {
@@ -46,7 +46,7 @@ const AudioPronunciationExample: React.FC<AudioPronunciationExampleProps> = ({
   lexeme = EXAMPLE_LEXEME
 }) => {
   const handlePronunciationSuccess = () => {
-    console.log('Pronunciation added successfully!');
+    console.log("Pronunciation added successfully!");
     // In a real app, you might want to refresh data or show a notification
   };
 
@@ -70,7 +70,7 @@ const AudioPronunciationExample: React.FC<AudioPronunciationExampleProps> = ({
           fallbackFormats={audioFile.fallbackUrls || []}
         />
         
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
           <Typography variant="body2" color="text.secondary">
             Source: Wikimedia Commons
           </Typography>

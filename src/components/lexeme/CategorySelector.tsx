@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
 import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
-  Box,
   CircularProgress,
   Typography,
   Autocomplete,
   Paper
 } from "@mui/material";
-import { categoriesApi } from "../../services/api";
+
+// import { categoriesApi } from "../../services/api";
 
 interface Category {
   id: string;
@@ -74,7 +70,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({ onCategorySelect })
     fetchCategories(query);
   };
 
-  const handleCategoryChange = (event: any, newValue: Category | null) => {
+  const handleCategoryChange = (_event: React.SyntheticEvent, newValue: Category | null) => {
     setSelectedCategory(newValue);
     if (newValue) {
       onCategorySelect(newValue.id);
@@ -87,24 +83,24 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({ onCategorySelect })
       sx={{
         p: 3,
         mb: 4,
-        border: '1px solid #eaecf0',
-        borderRadius: '4px',
-        '& .MuiInputBase-root': {
-          color: '#202122',
-          borderColor: '#a2a9b1'
+        border: "1px solid #eaecf0",
+        borderRadius: "4px",
+        "& .MuiInputBase-root": {
+          color: "#202122",
+          borderColor: "#a2a9b1"
         }
       }}
     >
       <Typography
         variant="h6"
         gutterBottom
-        sx={{ color: '#000', fontFamily: '"Libertinus Serif", "Linux Libertine", "Georgia", "Times", serif' }}
+        sx={{ color: "#000", fontFamily: "\"Libertinus Serif\", \"Linux Libertine\", \"Georgia\", \"Times\", serif" }}
       >
         Select Commons Category
       </Typography>
       <Typography
         variant="body2"
-        sx={{ mb: 2, color: '#54595d' }}
+        sx={{ mb: 2, color: "#54595d" }}
       >
         Choose a category containing audio files to match with lexemes
       </Typography>
@@ -116,53 +112,69 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({ onCategorySelect })
         loading={loading}
         value={selectedCategory}
         onChange={handleCategoryChange}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search categories"
-            variant="outlined"
-            fullWidth
-            onChange={handleSearchChange}
-            value={searchQuery}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <React.Fragment>
-                  {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                  {params.InputProps.endAdornment}
-                </React.Fragment>
-              ),
-            }}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#a2a9b1',
+        renderInput={(params) => {
+          const { InputProps: autocompleteInputProps, inputProps } = params;
+
+          return (
+            <TextField
+              id={params.id}
+              disabled={params.disabled}
+              label="Search categories"
+              variant="outlined"
+              fullWidth
+              size="medium"
+              onChange={handleSearchChange}
+              value={searchQuery}
+              slotProps={{
+                input: {
+                  ref: autocompleteInputProps.ref,
+                  className: autocompleteInputProps.className,
+                  startAdornment: autocompleteInputProps.startAdornment,
+                  onMouseDown: autocompleteInputProps.onMouseDown,
+                  endAdornment: (
+                    <React.Fragment>
+                      {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                      {autocompleteInputProps.endAdornment}
+                    </React.Fragment>
+                  ),
                 },
-                '&:hover fieldset': {
-                  borderColor: '#72777d',
+                htmlInput: inputProps
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#a2a9b1",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#72777d",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#3366cc",
+                  },
                 },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#3366cc',
-                },
-              },
-            }}
-          />
-        )}
-        renderOption={(props, option) => (
-          <MenuItem {...props} key={option.id}>
-            {option.name}
-            {option.count && <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-              ({option.count} files)
-            </Typography>}
-          </MenuItem>
-        )}
+              }}
+            />
+          );
+        }}
+        renderOption={(props, option) => {
+          const { key, ...optionProps } = props;
+
+          return (
+            <li {...optionProps} key={key}>
+              {option.name}
+              {option.count && <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
+                ({option.count} files)
+              </Typography>}
+            </li>
+          );
+        }}
       />
 
       {error && (
         <Typography
           color="error"
           variant="body2"
-          sx={{ mt: 1, color: '#d33' }}
+          sx={{ mt: 1, color: "#d33" }}
         >
           {error}
         </Typography>

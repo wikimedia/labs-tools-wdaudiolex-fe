@@ -1,39 +1,39 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 // Wikimedia color palette
 const colors = {
   blue: {
-    base: '#3366cc', // Progressive blue - primary Wikimedia blue
-    darker: '#2a4b8d', // Hover/active state
-    lighter: '#eaf3ff', // Background for blue content
+    base: "#3366cc", // Progressive blue - primary Wikimedia blue
+    darker: "#2a4b8d", // Hover/active state
+    lighter: "#eaf3ff", // Background for blue content
   },
   red: {
-    base: '#cc3333', // Destructive red
-    darker: '#b32424', // Hover/active state
-    lighter: '#fee7e6', // Background for red content
+    base: "#cc3333", // Destructive red
+    darker: "#b32424", // Hover/active state
+    lighter: "#fee7e6", // Background for red content
   },
   green: {
-    base: '#00af89', // Success green
-    darker: '#008c6d', // Hover/active state
-    lighter: '#d5fdf4', // Background for green content
+    base: "#00af89", // Success green
+    darker: "#008c6d", // Hover/active state
+    lighter: "#d5fdf4", // Background for green content
   },
   yellow: {
-    base: '#fc3', // Warning yellow
-    darker: '#ac6600', // For text contrast on yellow
-    lighter: '#fef6e7', // Background for yellow content
+    base: "#fc3", // Warning yellow
+    darker: "#ac6600", // For text contrast on yellow
+    lighter: "#fef6e7", // Background for yellow content
   },
   gray: {
-    base: '#f8f9fa', // Background color 
-    border: '#eaecf0', // Border color
+    base: "#f8f9fa", // Background color 
+    border: "#eaecf0", // Border color
     text: {
-      primary: '#202122', // Base text
-      secondary: '#54595d', // Secondary text
-      disabled: '#72777d', // Disabled text
+      primary: "#202122", // Base text
+      secondary: "#54595d", // Secondary text
+      disabled: "#72777d", // Disabled text
     },
     component: {
-      light: '#f8f9fa', // Component background
-      base: '#eaecf0', // Component border
-      dark: '#c8ccd1', // Component hover
+      light: "#f8f9fa", // Component background
+      base: "#eaecf0", // Component border
+      dark: "#c8ccd1", // Component hover
     },
   },
 };
@@ -41,18 +41,18 @@ const colors = {
 // Font stack following Wikimedia guidelines
 const fontFamily = [
   "'Helvetica Neue'",
-  'Helvetica',
-  'Arial',
-  'sans-serif'
-].join(',');
+  "Helvetica",
+  "Arial",
+  "sans-serif"
+].join(",");
 
 const headingFontFamily = [
   "'Libertinus Serif'",
   "'Linux Libertine'",
   "'Georgia'",
   "'Times'",
-  'serif'
-].join(',');
+  "serif"
+].join(",");
 
 // Create theme
 const theme = createTheme({
@@ -61,7 +61,7 @@ const theme = createTheme({
       main: colors.blue.base,
       dark: colors.blue.darker,
       light: colors.blue.lighter,
-      contrastText: '#ffffff',
+      contrastText: "#ffffff",
     },
     secondary: {
       main: colors.gray.component.base,
@@ -91,7 +91,7 @@ const theme = createTheme({
       disabled: colors.gray.text.disabled,
     },
     background: {
-      default: '#ffffff',
+      default: "#ffffff",
       paper: colors.gray.base,
     },
     divider: colors.gray.border,
@@ -122,13 +122,13 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 2,
-          textTransform: 'none',
+          textTransform: "none",
           fontWeight: 500,
         },
         contained: {
-          boxShadow: 'none',
-          '&:hover': {
-            boxShadow: 'none',
+          boxShadow: "none",
+          "&:hover": {
+            boxShadow: "none",
           },
         },
         outlined: {
@@ -146,21 +146,21 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          boxShadow: 'none',
+          boxShadow: "none",
         },
       },
     },
     MuiTextField: {
       styleOverrides: {
         root: {
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': {
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
               borderColor: colors.gray.component.base,
             },
-            '&:hover fieldset': {
+            "&:hover fieldset": {
               borderColor: colors.gray.component.dark,
             },
-            '&.Mui-focused fieldset': {
+            "&.Mui-focused fieldset": {
               borderColor: colors.blue.base,
             },
           },

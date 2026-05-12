@@ -1,4 +1,3 @@
-
 # Current Status vs. Proposal Requirements
 
 The current frontend is quite different from what's outlined in the proposal. Here's what we need to focus on:

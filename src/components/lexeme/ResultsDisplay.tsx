@@ -9,7 +9,7 @@ import {
   Avatar,
   Divider,
   Chip,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import { AudioFile as AudioFileIcon } from "@mui/icons-material";
 import { WikiCard, WikiMessage, WikiButton } from "../wikimedia";
@@ -46,12 +46,19 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
   matches,
   loading,
   error,
-  onSelectMatch
+  onSelectMatch,
 }) => {
   if (loading) {
     return (
       <WikiCard sx={{ mb: 4, textAlign: "center" }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            p: 3,
+          }}
+        >
           <CircularProgress size={40} />
           <Typography variant="body1" sx={{ mt: 2 }}>
             Matching lexemes with audio files...
@@ -82,10 +89,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
   }
 
   return (
-    <WikiCard 
-      title={`Results (${matches.length} matches)`}
-      sx={{ mb: 4 }}
-    >
+    <WikiCard title={`Results (${matches.length} matches)`} sx={{ mb: 4 }}>
       <List sx={{ width: "100%" }}>
         {matches.map((match, index) => (
           <React.Fragment key={`${match.audioFile.id}-${match.lexeme.id}`}>
@@ -105,7 +109,11 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
               <ListItemText
                 primary={
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Typography variant="subtitle1" component="span" sx={{ mr: 1 }}>
+                    <Typography
+                      variant="subtitle1"
+                      component="span"
+                      sx={{ mr: 1 }}
+                    >
                       {match.lexeme.lemma}
                     </Typography>
                     <Chip
@@ -128,15 +136,24 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                     >
                       Audio file: {match.audioFile.name}
                     </Typography>
-                    <Typography component="span" variant="body2" sx={{ display: "block" }}>
-                      Lexeme ID: {match.lexeme.id} • Language: {match.lexeme.language}
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      sx={{ display: "block" }}
+                    >
+                      Lexeme ID: {match.lexeme.id} • Language:{" "}
+                      {match.lexeme.language}
                     </Typography>
-                    <Typography component="span" variant="body2" sx={{ display: "block" }}>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      sx={{ display: "block" }}
+                    >
                       Forms: {match.lexeme.forms.join(", ")}
                     </Typography>
                     <Box sx={{ mt: 1 }}>
                       <WikiButton
-                        action="progressive"
+                        actionType="progressive"
                         size="small"
                         sx={{ mr: 1 }}
                         onClick={() => onSelectMatch(match)}
@@ -168,9 +185,9 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
 const getConfidenceColor = (confidence: number): string => {
   if (confidence >= 90) return "#14866d"; // Wikimedia green
   if (confidence >= 70) return "#3366cc"; // Wikimedia blue
-  if (confidence >= 50) return "#fc3";    // Wikimedia yellow
+  if (confidence >= 50) return "#fc3"; // Wikimedia yellow
   if (confidence >= 30) return "#ff9900"; // Wikimedia orange
-  return "#d33";                          // Wikimedia red
+  return "#d33"; // Wikimedia red
 };
 
-export default ResultsDisplay; 
+export default ResultsDisplay;

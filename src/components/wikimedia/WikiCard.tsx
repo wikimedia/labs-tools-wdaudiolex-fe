@@ -1,7 +1,7 @@
-import React from 'react';
-import { Paper, Box, Typography, Divider, PaperProps } from '@mui/material';
-
-interface WikiCardProps extends Omit<PaperProps, 'elevation' | 'title'> {
+import React from "react";
+import { Paper, Box, Typography, Divider } from "@mui/material";
+import type { PaperProps } from "@mui/material";
+interface WikiCardProps extends Omit<PaperProps, "elevation" | "title"> {
   /**
    * The title of the card
    */
@@ -35,10 +35,10 @@ const WikiCard: React.FC<WikiCardProps> = ({
     <Paper
       elevation={1}
       sx={{
-        border: '1px solid #c8ccd1',
-        borderRadius: '2px',
-        overflow: 'hidden',
-        backgroundColor: '#fff',
+        border: "1px solid #c8ccd1",
+        borderRadius: "2px",
+        overflow: "hidden",
+        backgroundColor: "#fff",
         ...props.sx
       }}
       {...props}
@@ -47,19 +47,19 @@ const WikiCard: React.FC<WikiCardProps> = ({
         <>
           <Box sx={{ 
             p: 2, 
-            backgroundColor: '#f8f9fa',
-            borderBottom: '1px solid #eaecf0',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
+            backgroundColor: "#f8f9fa",
+            borderBottom: "1px solid #eaecf0",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center"
           }}>
-            {typeof title === 'string' ? (
+            {typeof title === "string" ? (
               <Typography 
                 variant="subtitle1" 
                 component="h3" 
                 sx={{ 
-                  fontWeight: 'bold',
-                  color: '#222'
+                  fontWeight: "bold",
+                  color: "#222"
                 }}
               >
                 {title}
@@ -86,8 +86,8 @@ const WikiCard: React.FC<WikiCardProps> = ({
           <Divider />
           <Box sx={{ 
             p: 2, 
-            backgroundColor: '#f8f9fa',
-            borderTop: '1px solid #eaecf0'
+            backgroundColor: "#f8f9fa",
+            borderTop: "1px solid #eaecf0"
           }}>
             {footer}
           </Box>

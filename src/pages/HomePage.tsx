@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Container, Divider, Grid, Button } from "@mui/material";
+import { Box, Typography, Container, Divider, Grid } from "@mui/material";
 import CategorySelector from "../components/lexeme/CategorySelector";
 import PatternInput from "../components/lexeme/PatternInput";
 import ResultsDisplay from "../components/lexeme/ResultsDisplay";
@@ -7,10 +7,7 @@ import AudioPlayer from "../components/audio/AudioPlayer";
 import AddPronunciationForm from "../components/lexeme/AddPronunciationForm";
 import AudioPronunciationExample from "../components/lexeme/AudioPronunciationExample";
 import AddPronunciationButton from "../components/lexeme/AddPronunciationButton";
-import { lexemeApi } from "../services/api";
-// Import Codex design tokens CSS
-import '@wikimedia/codex-design-tokens/theme-wikimedia-ui.css';
-// Import our custom Wikimedia-styled components
+import "@wikimedia/codex-design-tokens/theme-wikimedia-ui.css";
 import { WikiMessage, WikiCard } from "../components/wikimedia";
 
 // Updated examples with working audio URLs and fallbacks
@@ -222,7 +219,7 @@ const HomePage: React.FC = () => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <AudioPronunciationExample 
-              audioFile={EXAMPLE_AUDIOS[0]}
+              audioFile={EXAMPLE_AUDIOS[0]!}
               lexeme={{
                 id: "L123456",
                 lemma: "example",
@@ -235,7 +232,7 @@ const HomePage: React.FC = () => {
           
           <Grid item xs={12} md={6}>
             <AudioPronunciationExample 
-              audioFile={EXAMPLE_AUDIOS[1]}
+              audioFile={EXAMPLE_AUDIOS[1]!}
               lexeme={{
                 id: "L654321",
                 lemma: "bonjour",

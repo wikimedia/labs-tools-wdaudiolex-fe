@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button, Box, Avatar } from "@mui/material";
-import HomeIcon from '@mui/icons-material/Home';
-import PersonIcon from '@mui/icons-material/Person';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import HomeIcon from "@mui/icons-material/Home";
+import PersonIcon from "@mui/icons-material/Person";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 const Navbar: React.FC = () => {
   // Wikimedia color palette
@@ -16,13 +16,13 @@ const Navbar: React.FC = () => {
       sx={{ 
         backgroundColor: wikiGray,
         color: "#202122",
-        boxShadow: 'none',
-        borderBottom: '1px solid #eaecf0',
+        boxShadow: "none",
+        borderBottom: "1px solid #eaecf0",
         mb: 2
       }}
     >
       <Toolbar>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexGrow: 1 }}>
           <Avatar
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikimedia_Foundation_logo_-_vertical.svg/75px-Wikimedia_Foundation_logo_-_vertical.svg.png"
             alt="Wikimedia"
@@ -33,12 +33,12 @@ const Navbar: React.FC = () => {
             variant="h6" 
             component="div" 
             sx={{ 
-              fontFamily: '"Libertinus Serif", "Linux Libertine", "Georgia", "Times", serif',
-              fontWeight: 'normal',
+              fontFamily: "\"Libertinus Serif\", \"Linux Libertine\", \"Georgia\", \"Times\", serif",
+              fontWeight: "normal",
               flexGrow: 1 
             }}
           >
-            Audio Lexeme Matching Tool
+            Audio Lexeme Matching
           </Typography>
         </Box>
         
@@ -49,9 +49,9 @@ const Navbar: React.FC = () => {
             to="/"
             startIcon={<HomeIcon />}
             sx={{ 
-              color: '#202122',
-              '&:hover': {
-                backgroundColor: 'rgba(51, 102, 204, 0.1)'
+              color: "#202122",
+              "&:hover": {
+                backgroundColor: "rgba(51, 102, 204, 0.1)"
               }
             }}
           >
@@ -63,9 +63,9 @@ const Navbar: React.FC = () => {
             to="/contributions"
             startIcon={<PersonIcon />}
             sx={{ 
-              color: '#202122',
-              '&:hover': {
-                backgroundColor: 'rgba(51, 102, 204, 0.1)'
+              color: "#202122",
+              "&:hover": {
+                backgroundColor: "rgba(51, 102, 204, 0.1)"
               }
             }}
           >
@@ -77,9 +77,9 @@ const Navbar: React.FC = () => {
             to="/help"
             startIcon={<HelpOutlineIcon />}
             sx={{ 
-              color: '#202122',
-              '&:hover': {
-                backgroundColor: 'rgba(51, 102, 204, 0.1)'
+              color: "#202122",
+              "&:hover": {
+                backgroundColor: "rgba(51, 102, 204, 0.1)"
               }
             }}
           >
@@ -90,8 +90,8 @@ const Navbar: React.FC = () => {
             sx={{ 
               ml: 1,
               backgroundColor: wikiBlue,
-              '&:hover': {
-                backgroundColor: '#2a4b8d'
+              "&:hover": {
+                backgroundColor: "#2a4b8d"
               }
             }}
           >

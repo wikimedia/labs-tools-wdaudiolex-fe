@@ -7,10 +7,10 @@ import { Container, Box } from "@mui/material";
 const Layout: React.FC = () => {
   return (
     <Box sx={{ 
-      display: 'flex', 
-      flexDirection: 'column',
-      minHeight: '100vh',
-      backgroundColor: '#ffffff'
+      display: "flex", 
+      flexDirection: "column",
+      minHeight: "100vh",
+      backgroundColor: "#ffffff"
     }}>
       <Navbar />
       <Container 

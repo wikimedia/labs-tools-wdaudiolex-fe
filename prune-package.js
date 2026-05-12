@@ -5,12 +5,12 @@ import path from "path";
 import process from "process";
 
 const __dirname = process.env.PACKAGE_DIR;
-const packagePath = path.join(__dirname, "package.json");
-const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+const packagePath = path.join( __dirname, "package.json" );
+const packageJson = JSON.parse( fs.readFileSync( packagePath, "utf8" ) );
 packageJson.dependencies = {};
 packageJson.devDependencies = {};
 packageJson.scripts.build = "ls";
 
 // Write the package.json file
-fs.writeFileSync(packagePath, JSON.stringify(packageJson, null, 2), "utf8");
-console.log("package.json pruned");
+fs.writeFileSync( packagePath, JSON.stringify( packageJson, null, 2 ), "utf8" );
+console.log( "package.json pruned" );
