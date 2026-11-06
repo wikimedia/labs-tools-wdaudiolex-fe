@@ -1,13 +1,11 @@
 /* eslint-env jest */
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import CategorySelector from "../CategorySelector";
-import { categoriesApi } from "../../../services/api";
-// Mock the API call
+
+const getCategories = jest.fn();
 
 jest.mock( "../../../services/api", () => ( {
-	categoriesApi: {
-		getCategories: jest.fn()
-	}
+	getLanguages: jest.fn()
 } ) );
 
 describe( "CategorySelector", () => {
@@ -18,7 +16,7 @@ describe( "CategorySelector", () => {
 		jest.clearAllMocks();
 
 		// Mock API response with test data
-		categoriesApi.getCategories.mockResolvedValue( {
+		getCategories.mockResolvedValue( {
 			data: [
 				{ id: "test_category_1", name: "Test Category 1", count: 100 },
 				{ id: "test_category_2", name: "Test Category 2", count: 200 }
@@ -78,8 +76,8 @@ describe( "CategorySelector", () => {
 		} );
 
 		// Reset mock to set up for search query test
-		categoriesApi.getCategories.mockReset();
-		categoriesApi.getCategories.mockResolvedValue( {
+		getCategories.mockReset();
+		getCategories.mockResolvedValue( {
 			data: [
 				{ id: "filtered_category", name: "Filtered Category", count: 50 }
 			]
@@ -91,6 +89,6 @@ describe( "CategorySelector", () => {
 		} );
 
 		// Check that the API was called with the search query
-		expect( categoriesApi.getCategories ).toHaveBeenCalledWith( "filter" );
+		expect( getCategories ).toHaveBeenCalledWith( "filter" );
 	} );
 } );

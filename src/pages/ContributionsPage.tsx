@@ -15,8 +15,6 @@ import {
   Button,
   Link
 } from "@mui/material";
-import { userApi } from "../services/api";
-
 interface Contribution {
   id: string;
   timestamp: string;
@@ -42,7 +40,7 @@ const ContributionsPage: React.FC = () => {
 
     try {
       // In a real implementation, this would call the backend API
-      // const response = await userApi.getContributions();
+      // const response = await getContributions();
       // setContributions(response.data);
       
       // Mock data for demonstration purposes

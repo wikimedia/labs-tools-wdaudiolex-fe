@@ -1,7 +1,19 @@
 import axios from "axios";
 
-// Create axios instance with baseURL from environment variable or default
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://wdaudiolex-api.toolforge.org/api";
+import { readToken } from "../auth/session";
+import type {
+  AddPronunciationBody,
+  AddPronunciationResult,
+  AuthSession,
+  CommonsFilesResponse,
+  ContributionRecord,
+  Language,
+  LoginStart,
+  MatchFileInput,
+  MatchLexemesResponse,
+} from "./types";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -10,36 +22,98 @@ const apiClient = axios.create({
   },
 });
 
-// Add a request interceptor for authentication headers
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+apiClient.interceptors.request.use((config) => {
+  const token = readToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export function apiErrorMessage(error: unknown): string {
+  if (axios.isAxiosError(error)) {
+    const data: unknown = error.response?.data;
+    if (data && typeof data === "object" && "message" in data) {
+      const message = (data as { message: unknown }).message;
+      if (typeof message === "string" && message.trim()) {
+        return message;
+      }
     }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+    if (error.message) {
+      return error.message;
+    }
+  }
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return "Request failed";
+}
 
-// API endpoints for the Audio Lexeme Matching Tool
-export const categoriesApi = {
-  getCategories: (query?: string) => 
-    apiClient.get("/categories", { params: { query } }),
-};
+export async function getLanguages(): Promise<Language[]> {
+  const { data } = await apiClient.get<Language[]>("/languages");
+  return Array.isArray(data) ? data : [];
+}
 
-export const lexemeApi = {
-  matchLexemes: (categoryId: string, pattern: string) => 
-    apiClient.post("/match-lexemes", { categoryId, pattern }),
-  addPronunciation: (lexemeId: string, audioId: string, variety?: string) => 
-    apiClient.post("/add-pronunciation", { lexemeId, audioId, variety }),
-};
+export async function getLanguage(langCode: string): Promise<Language> {
+  const { data } = await apiClient.get<Language>(`/languages/${encodeURIComponent(langCode)}`);
+  return data;
+}
 
-export const userApi = {
-  login: (code: string) => 
-    apiClient.post("/auth/oauth/callback", { code }),
-  getContributions: () => 
-    apiClient.get("/user/contributions"),
-};
+export async function getCommonsFiles(params: {
+  lang: string;
+  limit?: number;
+  continueToken?: string;
+  speaker?: string;
+}): Promise<CommonsFilesResponse> {
+  const { data } = await apiClient.get<CommonsFilesResponse>("/commons/files", {
+    params: {
+      lang: params.lang,
+      limit: params.limit ?? 20,
+      continue: params.continueToken,
+      speaker: params.speaker,
+    },
+  });
+  return data;
+}
 
-export default apiClient; 
+export async function matchLexemes(lang: string, files: MatchFileInput[]): Promise<MatchLexemesResponse> {
+  const { data } = await apiClient.post<MatchLexemesResponse>("/match-lexemes", { lang, files });
+  return data;
+}
+
+export async function startLogin(): Promise<LoginStart> {
+  const { data } = await apiClient.get<LoginStart>("/auth/login");
+  return data;
+}
+
+export async function exchangeOAuth(requestToken: string, queryString: string): Promise<AuthSession> {
+  const { data } = await apiClient.post<AuthSession>("/oauth-callback", {
+    request_token: requestToken,
+    query_string: queryString,
+  });
+  return data;
+}
+
+export async function logout(token: string): Promise<void> {
+  await apiClient.post("/auth/logout", { token });
+}
+
+export async function addPronunciation(body: AddPronunciationBody): Promise<AddPronunciationResult> {
+  const { data } = await apiClient.post<AddPronunciationResult>("/lexeme/audio/add", body);
+  return data;
+}
+
+export async function getContributions(params: {
+  username?: string;
+  langCode?: string;
+} = {}): Promise<ContributionRecord[]> {
+  const { data } = await apiClient.get<ContributionRecord[]>("/contributions", {
+    params: {
+      username: params.username,
+      lang_code: params.langCode,
+    },
+  });
+  return Array.isArray(data) ? data : [];
+}
+
+export default apiClient;

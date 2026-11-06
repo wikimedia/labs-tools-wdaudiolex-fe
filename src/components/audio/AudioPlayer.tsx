@@ -41,7 +41,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const [playbackRate, setPlaybackRate] = useState<number>(1);
   const [loadProgress, setLoadProgress] = useState<number>(0);
   const [currentSource, setCurrentSource] = useState<string>(audioUrl);
-  const [attemptedSources, setAttemptedSources] = useState<string[]>([]);
+  const [attemptedSources, setAttemptedSources] = useState<string[]>([audioUrl]);
   const [showNativePlayer, setShowNativePlayer] = useState<boolean>(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -101,11 +101,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
     setDuration(0);
     setLoadProgress(0);
     setIsPlaying(false);
-
-    // If this is the first load, initialize the attempted sources
-    if (attemptedSources.length === 0) {
-      setAttemptedSources([currentSource]);
-    }
 
     // Create audio element
     const audio = new Audio();
