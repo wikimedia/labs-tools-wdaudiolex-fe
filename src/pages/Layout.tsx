@@ -15,11 +15,14 @@ const Layout: React.FC = () => {
       <Navbar />
       <Container 
         component="main" 
-        maxWidth="lg" 
+        maxWidth={false}
         sx={{ 
           flexGrow: 1, 
-          py: 3,
-          px: { xs: 2, sm: 3 }
+          py: 2,
+          px: { xs: 2, sm: 3, lg: 4 },
+          width: "100%",
+          maxWidth: "80rem",
+          mx: "auto",
         }}
       >
         <Outlet />

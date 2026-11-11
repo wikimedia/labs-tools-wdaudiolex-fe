@@ -22,14 +22,16 @@ interface AudioPlayerProps {
   audioUrl: string;
   title: string;
   showDownload?: boolean;
-  fallbackFormats?: string[]; // Add this type annotation here
+  fallbackFormats?: string[];
+  compact?: boolean;
 }
 
 const AudioPlayer: React.FC<AudioPlayerProps> = ({
   audioUrl,
   title,
   showDownload = false,
-  fallbackFormats = []
+  fallbackFormats = [],
+  compact = false,
 }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(false);
@@ -314,8 +316,8 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       const nextIndex = (currentIndex + 1) % rates.length;
       const newRate = rates[nextIndex];
 
-      audioRef.current.playbackRate = newRate;
-      setPlaybackRate(newRate);
+      audioRef.current.playbackRate = newRate ?? 1;
+      setPlaybackRate(newRate ?? 1);
     }
   }, [playbackRate]);
 
@@ -336,9 +338,9 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
   if (loading) {
     return (
-      <Paper elevation={2} sx={{ p: 2, mb: 3 }}>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1, alignItems: "center", justifyContent: "center", height: 80 }}>
-          <CircularProgress size={30} />
+      <Paper variant={compact ? "outlined" : "elevation"} elevation={compact ? 0 : 2} sx={{ p: compact ? 1.5 : 2, mb: compact ? 0 : 3 }}>
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 1, height: compact ? 36 : 80 }}>
+          <CircularProgress size={compact ? 18 : 30} />
           <Typography variant="caption">Loading audio...</Typography>
         </Box>
       </Paper>
@@ -402,6 +404,33 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
           )}
         </Box>
       </Paper>
+    );
+  }
+
+  if (compact) {
+    return (
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <IconButton onClick={togglePlay} size="small" aria-label={isPlaying ? "Pause" : "Play"}>
+          {isPlaying ? <Pause /> : <PlayArrow />}
+        </IconButton>
+        <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+          <Slider
+            value={position}
+            min={0}
+            max={duration || 0}
+            onChange={handlePositionChange}
+            aria-label="audio position"
+            size="small"
+          />
+          <Box sx={{ display: "flex", justifyContent: "space-between", mt: -0.5 }}>
+            <Typography variant="caption">{formatTime(position)}</Typography>
+            <Typography variant="caption">{formatTime(duration)}</Typography>
+          </Box>
+        </Box>
+        <IconButton onClick={toggleMute} size="small" aria-label={isMuted ? "Unmute" : "Mute"}>
+          {isMuted ? <VolumeOff /> : <VolumeUp />}
+        </IconButton>
+      </Box>
     );
   }
 

@@ -32,6 +32,9 @@ export interface FormCandidate {
   lexeme_id: string | null;
   form_id: string | null;
   lemma: string | null;
+  lemma_language?: string | null;
+  description?: string | null;
+  language_qid?: string | null;
   form_representation: string | null;
   grammatical_features: string[];
   confidence: "exact" | "close";

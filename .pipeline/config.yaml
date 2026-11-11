@@ -1,6 +1,0 @@
-version: 1
-jobs:
-  - name: labs-tools-wdaudiolex-fe-tox
-    commands:
-      - cd "$WORKSPACE"
-      - tox -e tox.ini

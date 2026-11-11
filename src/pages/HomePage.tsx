@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Box, Button, Container, Paper, Typography } from "@mui/material";
+import { Alert, Box, Button, Paper, Typography } from "@mui/material";
 
+import FileMatchPanel from "../components/lexeme/FileMatchPanel";
 import LanguageSelect, { languageCode } from "../components/lexeme/LanguageSelect";
 import PronunciationFileList from "../components/lexeme/PronunciationFileList";
 import { apiErrorMessage, getCommonsFiles, getLanguages } from "../services/api";
@@ -90,18 +91,21 @@ const HomePage: React.FC = () => {
     };
   }, [selectedLanguage]);
 
+  const selectedFile = files.find((file) => file.title === selectedTitle) ?? null;
+  const selectedLang = selectedLanguage ? languageCode(selectedLanguage) : "";
+
   return (
-    <Container maxWidth="md">
-      <Box sx={{ textAlign: "center", mb: 5, mt: 2 }}>
-        <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 400 }}>
+    <Box>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h5" component="h1" sx={{ fontWeight: 400, color: "#222" }}>
           Match pronunciation files to Wikidata lexemes
         </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 640, mx: "auto" }}>
-          Pick a language to see Lingua Libre recordings. Play a file, then look up the lexeme it pronounces.
+        <Typography variant="body2" sx={{ color: "#72777d" }}>
+          Choose a language and a recording. The player, search, and matches stay on the right.
         </Typography>
       </Box>
 
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: 2 }}>
         <LanguageSelect
           languages={languages}
           value={selectedLanguage}
@@ -129,7 +133,6 @@ const HomePage: React.FC = () => {
           variant="outlined"
           sx={{
             p: 3,
-            textAlign: "center",
             backgroundColor: "#f8f9fa",
             borderColor: "#a2a9b1",
           }}
@@ -143,23 +146,67 @@ const HomePage: React.FC = () => {
       )}
 
       {selectedLanguage && (
-        <Box>
-          <Typography variant="h6" component="h2" gutterBottom>
-            {selectedLanguage.label}
-          </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            {selectedLanguage.commons_category || "Lingua Libre pronunciation files"}
-          </Typography>
-          <PronunciationFileList
-            files={files}
-            loading={filesLoading}
-            error={filesError}
-            selectedTitle={selectedTitle}
-            onSelect={(file) => setSelectedTitle(file.title)}
-          />
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", lg: "minmax(0, 2fr) minmax(0, 3fr)" },
+            gap: 4,
+            alignItems: "start",
+          }}
+        >
+          <Box>
+            <Typography variant="h6" component="h2" gutterBottom sx={{ color: "#222" }}>
+              {selectedLanguage.label}
+            </Typography>
+            <Typography variant="body2" sx={{ color: "#72777d", mb: 2 }}>
+              {selectedLanguage.commons_category || "Lingua Libre pronunciation files"}
+            </Typography>
+            <Box
+              sx={{
+                p: 2,
+                borderRadius: 1,
+                backgroundColor: "#f8f9fa",
+                border: "1px solid #a2a9b1",
+                maxHeight: { md: "70vh" },
+                overflow: "auto",
+              }}
+            >
+              <PronunciationFileList
+                files={files}
+                loading={filesLoading}
+                error={filesError}
+                selectedTitle={selectedTitle}
+                onSelect={(file: CommonsFile) => setSelectedTitle(file.title)}
+              />
+            </Box>
+          </Box>
+
+          <Box sx={{ position: { md: "sticky" }, top: { md: 16 } }}>
+            {selectedFile && selectedLang ? (
+              <FileMatchPanel
+                file={selectedFile}
+                lang={selectedLang}
+                langQid={selectedLanguage.qid}
+                languageLabel={selectedLanguage.label}
+              />
+            ) : (
+              <Paper
+                variant="outlined"
+                sx={{
+                  p: 3,
+                  backgroundColor: "#f8f9fa",
+                  borderColor: "#a2a9b1",
+                }}
+              >
+                <Typography sx={{ color: "#72777d" }}>
+                  Select a recording to open the player, search Wikidata, and match a lexeme form.
+                </Typography>
+              </Paper>
+            )}
+          </Box>
         </Box>
       )}
-    </Container>
+    </Box>
   );
 };
 

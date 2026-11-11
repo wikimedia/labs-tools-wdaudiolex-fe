@@ -31,3 +31,4 @@ build/
 *.sln
 *.sw?
 .env
+tsconfig.tsbuildinfo

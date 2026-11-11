@@ -1,87 +1,93 @@
 import React from "react";
-import { Box, Typography, Link, Container, Divider } from "@mui/material";
-import TextSnippetIcon from "@mui/icons-material/TextSnippet";
+import { Box, Link, Typography } from "@mui/material";
+
+const labelSx = {
+  color: "#72777d",
+  fontSize: "10px",
+  fontWeight: 700,
+};
 
 const Footer: React.FC = () => {
   return (
-    <Box 
-      component="footer" 
-      sx={{ 
-        py: 3, 
-        bgcolor: "#f8f9fa", 
-        borderTop: "1px solid #eaecf0",
-        mt: "auto" 
+    <Box
+      component="footer"
+      sx={{
+        mt: "auto",
+        bgcolor: "#f8f9fa",
+        borderTop: "1px solid #a2a9b1",
+        height: 64,
+        display: "flex",
+        alignItems: "center",
       }}
     >
-      <Container maxWidth="lg">
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-          <TextSnippetIcon sx={{ fontSize: 18, color: "#72777d", mr: 1 }} />
-          <Typography 
-            variant="body2" 
-            sx={{ color: "#54595d" }}
-          >
-            © {new Date().getFullYear()} Audio Lexeme Matching Tool
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: "80rem",
+          mx: "auto",
+          px: { xs: 2, sm: 3, lg: 4 },
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 1.5,
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography component="span" sx={labelSx}>
+            Powered by
           </Typography>
+          <Link href="https://www.wikidata.org/" target="_blank" rel="noopener noreferrer" sx={{ display: "flex" }}>
+            <Box
+              component="img"
+              src="https://upload.wikimedia.org/wikipedia/commons/6/66/Wikidata-logo-en.svg"
+              alt="Wikidata"
+              sx={{ width: 64, height: "auto", display: "block" }}
+            />
+          </Link>
         </Box>
-        
-        <Typography variant="caption" sx={{ color: "#72777d", display: "block", mb: 2 }}>
-          A Wikimedia Foundation tool for adding pronunciation audio to lexemes
+
+        <Typography
+          component="p"
+          sx={{
+            color: "#72777d",
+            fontSize: "12px",
+            textAlign: "center",
+            m: 0,
+            flex: "1 1 auto",
+            whiteSpace: "nowrap",
+          }}
+        >
+          License for content: <Box component="span" sx={{ fontWeight: 700 }}>CC0 for data</Box>
+          {", "}
+          <Box component="span" sx={{ fontWeight: 700 }}>CC-BY-SA for text and media</Box>
+          {" | "}
+          <Link
+            href="https://phabricator.wikimedia.org/tag/wdaudiolex/"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{ color: "#72777d", whiteSpace: "nowrap" }}
+          >
+            Report technical problems on our phabricator board.
+          </Link>
         </Typography>
-        
-        <Divider sx={{ my: 1, borderColor: "#eaecf0" }} />
-        
-        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mt: 2 }}>
-          <Link 
-            href="https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use" 
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{ 
-              color: "#3366cc", 
-              textDecoration: "none",
-              fontSize: "0.75rem", 
-              "&:hover": {
-                textDecoration: "underline"
-              }
-            }}
-          >
-            Terms of Use
+
+        {/* <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Typography component="span" sx={{ ...labelSx, mb: 0 }}>
+            Supported by
+          </Typography>
+          <Link href="https://www.wikimedia.de/" target="_blank" rel="noopener noreferrer">
+            <Box
+              component="img"
+              src="/Wikimedia_Deutschland-Logo.svg"
+              alt="Wikimedia Deutschland"
+              sx={{ width: 48, height: 48, display: "block" }}
+            />
           </Link>
-          
-          <Link 
-            href="https://foundation.wikimedia.org/wiki/Policy:Privacy_policy" 
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{ 
-              color: "#3366cc", 
-              textDecoration: "none", 
-              fontSize: "0.75rem",
-              "&:hover": {
-                textDecoration: "underline"
-              }
-            }}
-          >
-            Privacy Policy
-          </Link>
-          
-          <Link 
-            href="https://www.mediawiki.org/" 
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{ 
-              color: "#3366cc", 
-              textDecoration: "none", 
-              fontSize: "0.75rem",
-              "&:hover": {
-                textDecoration: "underline"
-              }
-            }}
-          >
-            MediaWiki
-          </Link>
-        </Box>
-      </Container>
+        </Box> */}
+      </Box>
     </Box>
   );
 };
 
-export default Footer; 
+export default Footer;

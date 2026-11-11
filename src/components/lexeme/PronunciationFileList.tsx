@@ -6,11 +6,10 @@ import {
   List,
   ListItemButton,
   ListItemText,
-  Typography,
 } from "@mui/material";
 
-import AudioPlayer from "../audio/AudioPlayer";
 import type { CommonsFile } from "../../services/types";
+import { displayWord } from "../../utils/words";
 
 interface PronunciationFileListProps {
   files: CommonsFile[];
@@ -19,8 +18,6 @@ interface PronunciationFileListProps {
   selectedTitle: string | null;
   onSelect: (file: CommonsFile) => void;
 }
-
-const NO_FALLBACKS: string[] = [];
 
 function fileKey(file: CommonsFile, index: number): string {
   return file.title || `file-${index}`;
@@ -33,31 +30,8 @@ const PronunciationFileList: React.FC<PronunciationFileListProps> = ({
   selectedTitle,
   onSelect,
 }) => {
-  const selected = files.find((file) => file.title === selectedTitle) ?? null;
-  const canPlay = Boolean(selected?.url && selected.url.startsWith("http"));
-
   return (
     <Box>
-      {selected && canPlay && selected.url && (
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" gutterBottom>
-            {selected.word || selected.title}
-          </Typography>
-          <AudioPlayer
-            key={selected.title}
-            audioUrl={selected.url}
-            title={selected.word || selected.title}
-            fallbackFormats={NO_FALLBACKS}
-          />
-        </Box>
-      )}
-
-      {selected && !canPlay && (
-        <Alert severity="warning" sx={{ mb: 2 }}>
-          This file has no playable URL yet.
-        </Alert>
-      )}
-
       {loading && (
         <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
           <CircularProgress />
@@ -77,7 +51,7 @@ const PronunciationFileList: React.FC<PronunciationFileListProps> = ({
       {files.length > 0 && (
         <List aria-label="Pronunciation files">
           {files.map((file, index) => {
-            const word = file.word || "Word not parsed";
+            const word = displayWord(file.word) || "Word not parsed";
             const speaker = file.speaker || "Unknown speaker";
             return (
               <ListItemButton
