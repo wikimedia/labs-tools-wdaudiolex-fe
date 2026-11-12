@@ -1,204 +1,156 @@
-import process from "process";
-import path from "path";
-import require from "require";
+import { createReadStream, existsSync, statSync } from "node:fs";
+import { createServer } from "node:http";
+import { extname, join, sep } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const dir = path.join(__dirname);
+const distDir = fileURLToPath( new URL( "./dist", import.meta.url ) );
+const port = Number( process.env.PORT ) || 8000;
 
-process.env.NODE_ENV = "production";
-process.chdir(__dirname);
-
-const currentPort = parseInt(process.env.PORT, 10) || 3000;
-const hostname = process.env.HOSTNAME || "0.0.0.0";
-
-let keepAliveTimeout = parseInt(process.env.KEEP_ALIVE_TIMEOUT, 10);
-const nextConfig = {
-	eslint: { ignoreDuringBuilds: false },
-	typescript: { ignoreBuildErrors: false, tsconfigPath: "tsconfig.json" },
-	distDir: "./.next",
-	cleanDistDir: true,
-	assetPrefix: "",
-	cacheMaxMemorySize: 52428800,
-	configOrigin: "vite.config.js",
-	useFileSystemPublicRoutes: true,
-	generateEtags: true,
-	pageExtensions: ["tsx", "ts", "jsx", "js"],
-	poweredByHeader: true,
-	compress: true,
-	images: {
-		deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-		imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-		path: "/_next/image",
-		loader: "default",
-		loaderFile: "",
-		domains: [],
-		disableStaticImages: false,
-		minimumCacheTTL: 60,
-		formats: ["image/webp"],
-		dangerouslyAllowSVG: false,
-		contentSecurityPolicy: "script-src 'none'; frame-src 'none'; sandbox;",
-		contentDispositionType: "attachment",
-		unoptimized: false
-	},
-	devIndicators: { position: "bottom-left" },
-	onDemandEntries: { maxInactiveAge: 60000, pagesBufferLength: 5 },
-	amp: { canonicalBase: "" },
-	basePath: "",
-	sassOptions: {},
-	trailingSlash: false,
-	i18n: null,
-	productionBrowserSourceMaps: false,
-	excludeDefaultMomentLocales: true,
-	serverRuntimeConfig: {},
-	publicRuntimeConfig: {},
-	reactProductionProfiling: false,
-	reactStrictMode: null,
-	reactMaxHeadersLength: 6000,
-	httpAgentOptions: { keepAlive: true },
-	logging: {},
-	expireTime: 31536000,
-	staticPageGenerationTimeout: 60,
-	output: "standalone",
-
-	outputFileTracingRoot: "/builds/collins/wdtmcollab",
-	experimental: {
-		nodeMiddleware: false,
-		cacheLife: {
-			default: { stale: 300, revalidate: 900, expire: 4294967294 },
-			seconds: { stale: 0, revalidate: 1, expire: 60 },
-			minutes: { stale: 300, revalidate: 60, expire: 3600 },
-			hours: { stale: 300, revalidate: 3600, expire: 86400 },
-			days: { stale: 300, revalidate: 86400, expire: 604800 },
-			weeks: { stale: 300, revalidate: 604800, expire: 2592000 },
-			max: { stale: 300, revalidate: 2592000, expire: 4294967294 }
-		},
-		cacheHandlers: {},
-		cssChunking: true,
-		multiZoneDraftMode: false,
-		appNavFailHandling: false,
-		prerenderEarlyExit: true,
-		serverMinification: true,
-		serverSourceMaps: false,
-		linkNoTouchStart: false,
-		caseSensitiveRoutes: false,
-		clientSegmentCache: false,
-		dynamicOnHover: false,
-		preloadEntriesOnStart: true,
-		clientRouterFilter: true,
-		clientRouterFilterRedirects: false,
-		fetchCacheKeyPrefix: "",
-		middlewarePrefetch: "flexible",
-		optimisticClientCache: true,
-		manualClientBasePath: false,
-		cpus: 7,
-		memoryBasedWorkersCount: false,
-		imgOptConcurrency: null,
-		imgOptTimeoutInSeconds: 7,
-		imgOptMaxInputPixels: 268402689,
-		imgOptSequentialRead: null,
-		isrFlushToDisk: true,
-		workerThreads: false,
-		optimizeCss: false,
-		nextScriptWorkers: false,
-		scrollRestoration: false,
-		externalDir: false,
-		disableOptimizedLoading: false,
-		gzipSize: true,
-		craCompat: false,
-		esmExternals: true,
-		fullySpecified: false,
-		swcTraceProfiling: false,
-		forceSwcTransforms: false,
-		largePageDataBytes: 128000,
-		typedRoutes: false,
-		typedEnv: false,
-		clientTraceMetadata: ["baggage", "webpackChunkName"],
-		parallelServerCompiles: false,
-		parallelServerBuildTraces: false,
-		ppr: false,
-		authInterrupts: false,
-		webpackBuildWorker: true,
-		webpackMemoryOptimizations: true,
-		optimizeServerReact: true,
-		useEarlyImport: false,
-		viewTransition: false,
-		routerBFCache: false,
-		staleTimes: { dynamic: 0, static: 300 },
-		serverComponentsHmrCache: true,
-		staticGenerationMaxConcurrency: 8,
-		staticGenerationMinPagesPerWorker: 25,
-		dynamicIO: false,
-		inlineCss: false,
-		useCache: false,
-		optimizePackageImports: [
-			"@tanstack/react-query",
-			"@types/d3",
-			"axios",
-			"d3",
-			"neo4j-driver",
-			"next",
-			"react",
-			"react-dom",
-			"sparql-http-client",
-			"swr",
-			"uuidv4"
-		],
-		trustHostHeader: false,
-		isExperimentalCompile: false
-	},
-	bundlePagesRouterDependencies: false,
-	configFileName: "next.config.ts",
-	turbopack: {
-		rules: { "*.lottie": ["@noxfed/lottie-webpack-loader"] },
-		root: "/builds/collins/agpb-v4-web"
-	},
-	serverExternalPackages: [
-		"amqplib",
-		"connect",
-		"dataloader",
-		"express",
-		"generic-pool",
-		"graphql",
-		"@hapi/hapi",
-		"ioredis",
-		"kafkajs",
-		"koa",
-		"lru-memoizer",
-		"mongodb",
-		"mongoose",
-		"mysql",
-		"mysql2",
-		"knex",
-		"pg",
-		"pg-pool",
-		"@node-redis/client",
-		"@redis/client",
-		"redis",
-		"tedious"
-	]
+const contentTypes = {
+	".css": "text/css; charset=utf-8",
+	".gif": "image/gif",
+	".html": "text/html; charset=utf-8",
+	".ico": "image/x-icon",
+	".jpeg": "image/jpeg",
+	".jpg": "image/jpeg",
+	".js": "text/javascript; charset=utf-8",
+	".json": "application/json; charset=utf-8",
+	".map": "application/json; charset=utf-8",
+	".png": "image/png",
+	".svg": "image/svg+xml",
+	".ttf": "font/ttf",
+	".txt": "text/plain; charset=utf-8",
+	".webmanifest": "application/manifest+json",
+	".webp": "image/webp",
+	".woff": "font/woff",
+	".woff2": "font/woff2"
 };
 
-process.env.__NEXT_PRIVATE_STANDALONE_CONFIG = JSON.stringify(nextConfig);
-
-require("next");
-const { startServer } = require("next/dist/server/lib/start-server");
-
-if (
-	Number.isNaN(keepAliveTimeout) ||
-	!Number.isFinite(keepAliveTimeout) ||
-	keepAliveTimeout < 0
-) {
-	keepAliveTimeout = undefined;
+if ( !Number.isInteger( port ) || port <= 0 || port > 65535 ) {
+	console.error( "PORT must be a TCP port number." );
+	process.exit( 1 );
 }
 
-startServer({
-	dir,
-	isDev: false,
-	config: nextConfig,
-	hostname,
-	port: currentPort,
-	allowRetry: false,
-	keepAliveTimeout
-}).catch((err) => {
-	console.error(err);
-	process.exit(1);
-});
+if ( !existsSync( join( distDir, "index.html" ) ) ) {
+	console.error( "Missing dist/index.html. Run npm run build before starting the server." );
+	process.exit( 1 );
+}
+
+/**
+ * Map a URL path onto a file inside dist.
+ * Returns null when the path escapes that directory.
+ *
+ * @param {string} pathname
+ * @return {string|null}
+ */
+function fileFor( pathname ) {
+	let decoded;
+	try {
+		decoded = decodeURIComponent( pathname );
+	} catch ( error ) {
+		return null;
+	}
+
+	if ( decoded.includes( "\0" ) ) {
+		return null;
+	}
+
+	const relative = decoded.replace( /^\/+/, "" );
+	const candidate = join( distDir, relative );
+	const rootPrefix = distDir.endsWith( sep ) ? distDir : distDir + sep;
+	if ( candidate !== distDir && !candidate.startsWith( rootPrefix ) ) {
+		return null;
+	}
+	return candidate;
+}
+
+/**
+ * @param {string} filePath
+ * @return {Record<string, string>}
+ */
+function headersFor( filePath ) {
+	const extension = extname( filePath ).toLowerCase();
+	const type = contentTypes[ extension ] || "application/octet-stream";
+	const hashedAsset = filePath.includes( `${ sep }assets${ sep }` );
+	let cacheControl = "public, max-age=3600";
+	if ( extension === ".html" ) {
+		cacheControl = "no-cache";
+	} else if ( hashedAsset ) {
+		cacheControl = "public, max-age=31536000, immutable";
+	}
+
+	return {
+		"Cache-Control": cacheControl,
+		"Content-Type": type,
+		"X-Content-Type-Options": "nosniff"
+	};
+}
+
+/**
+ * @param {string} pathname
+ * @return {{filePath: string}|{error: number}}
+ */
+function resolveFile( pathname ) {
+	let filePath = fileFor( pathname );
+	if ( !filePath ) {
+		return { error: 400 };
+	}
+
+	if ( existsSync( filePath ) && statSync( filePath ).isDirectory() ) {
+		filePath = join( filePath, "index.html" );
+	}
+
+	if ( existsSync( filePath ) && statSync( filePath ).isFile() ) {
+		return { filePath };
+	}
+
+	// /help and /oauth-callback are client routes. A missing .js or .css stays a 404.
+	if ( extname( pathname ) ) {
+		return { error: 404 };
+	}
+
+	return { filePath: join( distDir, "index.html" ) };
+}
+
+const server = createServer( ( request, response ) => {
+	if ( request.method !== "GET" && request.method !== "HEAD" ) {
+		response.writeHead( 405, { Allow: "GET, HEAD" } );
+		response.end( "Method not allowed" );
+		return;
+	}
+
+	let pathname = "/";
+	try {
+		pathname = new URL( request.url || "/", "http://127.0.0.1" ).pathname;
+	} catch ( error ) {
+		response.writeHead( 400 );
+		response.end( "Bad request" );
+		return;
+	}
+
+	const resolved = resolveFile( pathname );
+	if ( "error" in resolved ) {
+		response.writeHead( resolved.error );
+		response.end( resolved.error === 400 ? "Bad request" : "Not found" );
+		return;
+	}
+
+	response.writeHead( 200, headersFor( resolved.filePath ) );
+	if ( request.method === "HEAD" ) {
+		response.end();
+		return;
+	}
+
+	const stream = createReadStream( resolved.filePath );
+	stream.on( "error", () => {
+		if ( !response.headersSent ) {
+			response.writeHead( 500 );
+		}
+		response.end();
+	} );
+	stream.pipe( response );
+} );
+
+server.listen( port, "0.0.0.0", () => {
+	console.log( `WDAudioLex frontend listening on 0.0.0.0:${ port }` );
+} );
