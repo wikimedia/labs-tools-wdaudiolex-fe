@@ -19,13 +19,13 @@ import {
   Typography,
 } from "@mui/material";
 
-import { readToken, saveRequestToken } from "../../auth/session";
+import { redirectToWikimediaLogin } from "../../auth/login";
+import { readToken } from "../../auth/session";
 import AudioPlayer from "../audio/AudioPlayer";
 import {
   addPronunciation,
   apiErrorMessage,
   matchLexemes,
-  startLogin,
 } from "../../services/api";
 import type { CommonsFile, FormCandidate } from "../../services/types";
 import { displayWord } from "../../utils/words";
@@ -166,11 +166,7 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
   const handleLogin = () => {
     setLoginLoading(true);
     setLoginError(null);
-    startLogin()
-      .then((start) => {
-        saveRequestToken(start.request_token);
-        window.location.assign(start.redirect_string);
-      })
+    redirectToWikimediaLogin()
       .catch((error: unknown) => {
         setLoginError(apiErrorMessage(error));
         setLoginLoading(false);

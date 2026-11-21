@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { Alert, AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import AccountMenu from "./AccountMenu";
 
+import { redirectToWikimediaLogin } from "../../auth/login";
+import { apiErrorMessage } from "../../services/api";
+
 const Navbar: React.FC = () => {
   const wikiGray = "#f8f9fa";
-  
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
+
+  const handleLogin = () => {
+    if (loginLoading) {
+      return;
+    }
+    setLoginLoading(true);
+    setLoginError(null);
+    redirectToWikimediaLogin().catch((error: unknown) => {
+      setLoginError(apiErrorMessage(error));
+      setLoginLoading(false);
+    });
+  };
+
   return (
     <AppBar 
       position="static" 
@@ -101,6 +118,11 @@ const Navbar: React.FC = () => {
           <AccountMenu />
         </Box>
       </Toolbar>
+      {loginError && (
+        <Box sx={{ width: "100%", maxWidth: "80rem", mx: "auto", px: { xs: 2, sm: 3, lg: 4 }, pb: 1 }}>
+          <Alert severity="error">{loginError}</Alert>
+        </Box>
+      )}
     </AppBar>
   );
 };
