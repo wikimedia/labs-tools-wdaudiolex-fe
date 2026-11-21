@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Box, Button, Paper, Typography } from "@mui/material";
 
+import { readPendingMatch } from "../auth/pendingMatch";
 import FileMatchPanel from "../components/lexeme/FileMatchPanel";
 import LanguageSelect, { languageCode } from "../components/lexeme/LanguageSelect";
 import PronunciationFileList from "../components/lexeme/PronunciationFileList";
@@ -28,8 +29,18 @@ const HomePage: React.FC = () => {
 
     getLanguages()
       .then((rows) => {
-        if (!cancelled) {
-          setLanguages(rows);
+        if (cancelled) {
+          return;
+        }
+        setLanguages(rows);
+        const pending = readPendingMatch();
+        if (!pending) {
+          return;
+        }
+        const match = rows.find((language) => languageCode(language) === pending.lang);
+        if (match) {
+          setSelectedLanguage(match);
+          setSelectedTitle(pending.file.title);
         }
       })
       .catch((error: unknown) => {
@@ -66,7 +77,8 @@ const HomePage: React.FC = () => {
     let cancelled = false;
     setFilesLoading(true);
     setFilesError(null);
-    setSelectedTitle(null);
+    const pending = readPendingMatch();
+    setSelectedTitle(pending && pending.lang === lang ? pending.file.title : null);
 
     getCommonsFiles({ lang, limit: FILE_PAGE_SIZE })
       .then((response) => {
@@ -91,8 +103,16 @@ const HomePage: React.FC = () => {
     };
   }, [selectedLanguage]);
 
-  const selectedFile = files.find((file) => file.title === selectedTitle) ?? null;
   const selectedLang = selectedLanguage ? languageCode(selectedLanguage) : "";
+  const pendingMatch = readPendingMatch();
+  const selectedFile = files.find((file) => file.title === selectedTitle)
+    ?? (
+      pendingMatch
+      && selectedTitle === pendingMatch.file.title
+      && selectedLang === pendingMatch.lang
+        ? pendingMatch.file
+        : null
+    );
 
   return (
     <Box>

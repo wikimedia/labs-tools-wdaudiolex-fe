@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 
 import { redirectToWikimediaLogin } from "../../auth/login";
+import { clearPendingMatch, readPendingMatch, savePendingMatch } from "../../auth/pendingMatch";
 import { readToken } from "../../auth/session";
 import AudioPlayer from "../audio/AudioPlayer";
 import {
@@ -89,6 +90,7 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
   const canPlay = Boolean(file.url && file.url.startsWith("http"));
   const selected = candidates.find((candidate) => candidate.form_id === selectedFormId) ?? null;
   const searchSeq = useRef(0);
+  const resumedConfirm = useRef(false);
 
   const runSearch = useCallback((word: string) => {
     const trimmed = word.trim();
@@ -137,10 +139,31 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
   }, [file.title, file.url, lang]);
 
   useEffect(() => {
+    const pending = readPendingMatch();
+    const resume = Boolean(
+      pending
+      && readToken()
+      && pending.lang === lang
+      && pending.file.title === file.title
+      && pending.formId,
+    );
+
     setQuery(parsedWord);
     setPostError(null);
-    setConfirmOpen(false);
     setLoginOpen(false);
+
+    if (resume && pending) {
+      resumedConfirm.current = true;
+      setSearchError(null);
+      setSearching(false);
+      setCandidates([pending.candidate]);
+      setSelectedFormId(pending.formId);
+      setConfirmOpen(true);
+      return;
+    }
+
+    resumedConfirm.current = false;
+    setConfirmOpen(false);
     runSearch(parsedWord);
   }, [file.title, lang, parsedWord, runSearch]);
 
@@ -158,13 +181,35 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
   };
 
   const handleLogin = () => {
+    if (!selected?.form_id) {
+      return;
+    }
     setLoginLoading(true);
     setLoginError(null);
+    savePendingMatch({
+      lang,
+      file,
+      formId: selected.form_id,
+      candidate: selected,
+    });
     redirectToWikimediaLogin()
       .catch((error: unknown) => {
+        clearPendingMatch();
         setLoginError(apiErrorMessage(error));
         setLoginLoading(false);
       });
+  };
+
+  const dismissConfirm = () => {
+    if (posting) {
+      return;
+    }
+    clearPendingMatch();
+    setConfirmOpen(false);
+    if (resumedConfirm.current) {
+      setSelectedFormId(null);
+      resumedConfirm.current = false;
+    }
   };
 
   const handleConfirm = () => {
@@ -183,6 +228,8 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
       lang_wdqid: langQid,
     })
       .then((result) => {
+        clearPendingMatch();
+        resumedConfirm.current = false;
         setPostSuccess(`Added pronunciation on ${result.form_id}.`);
         setConfirmOpen(false);
       })
@@ -375,7 +422,7 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
         </DialogActions>
       </Dialog>
 
-      <Dialog open={confirmOpen} onClose={() => !posting && setConfirmOpen(false)}>
+      <Dialog open={confirmOpen} onClose={dismissConfirm}>
         <DialogTitle>Match this recording</DialogTitle>
         <DialogContent>
           <Typography variant="body2" sx={{ mb: 1 }}>
@@ -412,7 +459,7 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setConfirmOpen(false)} disabled={posting}>Cancel</Button>
+          <Button onClick={dismissConfirm} disabled={posting}>Cancel</Button>
           <Button variant="contained" onClick={handleConfirm} disabled={posting || !langQid}>
             {posting ? "Saving…" : "Match audio"}
           </Button>
