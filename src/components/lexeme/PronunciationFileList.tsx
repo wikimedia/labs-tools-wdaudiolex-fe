@@ -2,11 +2,13 @@ import React from "react";
 import {
   Alert,
   Box,
+  Button,
   CircularProgress,
   Link,
   List,
   ListItemButton,
   ListItemText,
+  Typography,
 } from "@mui/material";
 
 import type { CommonsFile } from "../../services/types";
@@ -19,6 +21,7 @@ interface PronunciationFileListProps {
   error: string | null;
   selectedTitle: string | null;
   onSelect: (file: CommonsFile) => void;
+  onRetry?: () => void;
 }
 
 function fileKey(file: CommonsFile, index: number): string {
@@ -31,17 +34,29 @@ const PronunciationFileList: React.FC<PronunciationFileListProps> = ({
   error,
   selectedTitle,
   onSelect,
+  onRetry,
 }) => {
   return (
     <Box>
       {loading && (
-        <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
-          <CircularProgress />
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 1, py: 4 }} role="status">
+          <CircularProgress size={22} />
+          <Typography variant="body2" sx={{ color: "#72777d" }}>
+            Loading pronunciation files…
+          </Typography>
         </Box>
       )}
 
-      {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+      {!loading && error && (
+        <Alert
+          severity="error"
+          sx={{ mb: 2 }}
+          action={onRetry ? (
+            <Button color="inherit" size="small" onClick={onRetry}>
+              Try again
+            </Button>
+          ) : undefined}
+        >
           {error}
         </Alert>
       )}

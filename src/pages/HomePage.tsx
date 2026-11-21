@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Box, Button, Paper, Typography } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, Paper, Typography } from "@mui/material";
 
 import { readPendingMatch } from "../auth/pendingMatch";
 import FileMatchPanel from "../components/lexeme/FileMatchPanel";
@@ -20,6 +20,8 @@ const HomePage: React.FC = () => {
   const [files, setFiles] = useState<CommonsFile[]>([]);
   const [filesLoading, setFilesLoading] = useState(false);
   const [filesError, setFilesError] = useState<string | null>(null);
+  const [filesCanRetry, setFilesCanRetry] = useState(false);
+  const [fileAttempt, setFileAttempt] = useState(0);
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
 
   useEffect(() => {
@@ -62,7 +64,9 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     if (!selectedLanguage) {
       setFiles([]);
+      setFilesLoading(false);
       setFilesError(null);
+      setFilesCanRetry(false);
       setSelectedTitle(null);
       return;
     }
@@ -70,15 +74,21 @@ const HomePage: React.FC = () => {
     const lang = languageCode(selectedLanguage);
     if (!lang) {
       setFiles([]);
+      setFilesLoading(false);
+      setFilesCanRetry(false);
       setFilesError("This language has no code the API can use.");
+      setSelectedTitle(null);
       return;
     }
 
     let cancelled = false;
+    setFiles([]);
     setFilesLoading(true);
     setFilesError(null);
     const pending = readPendingMatch();
     setSelectedTitle(pending && pending.lang === lang ? pending.file.title : null);
+    setFilesCanRetry(false);
+    setSelectedTitle(null);
 
     getCommonsFiles({ lang, limit: FILE_PAGE_SIZE })
       .then((response) => {
@@ -90,6 +100,7 @@ const HomePage: React.FC = () => {
         if (!cancelled) {
           setFiles([]);
           setFilesError(apiErrorMessage(error));
+          setFilesCanRetry(true);
         }
       })
       .finally(() => {
@@ -101,7 +112,7 @@ const HomePage: React.FC = () => {
     return () => {
       cancelled = true;
     };
-  }, [selectedLanguage]);
+  }, [selectedLanguage, fileAttempt]);
 
   const selectedLang = selectedLanguage ? languageCode(selectedLanguage) : "";
   const pendingMatch = readPendingMatch();
@@ -157,11 +168,14 @@ const HomePage: React.FC = () => {
             borderColor: "#a2a9b1",
           }}
         >
-          <Typography color="text.secondary">
-            {languagesLoading
-              ? "Loading languages…"
-              : "Select a language to see pronunciation files."}
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }} role="status">
+            {languagesLoading && <CircularProgress size={22} />}
+            <Typography color="text.secondary">
+              {languagesLoading
+                ? "Loading languages…"
+                : "Select a language to see pronunciation files."}
+            </Typography>
+          </Box>
         </Paper>
       )}
 
@@ -197,6 +211,7 @@ const HomePage: React.FC = () => {
                 error={filesError}
                 selectedTitle={selectedTitle}
                 onSelect={(file: CommonsFile) => setSelectedTitle(file.title)}
+                {...(filesCanRetry ? { onRetry: () => setFileAttempt((attempt) => attempt + 1) } : {})}
               />
             </Box>
           </Box>
