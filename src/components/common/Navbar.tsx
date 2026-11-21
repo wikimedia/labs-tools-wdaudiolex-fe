@@ -4,10 +4,9 @@ import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import AccountMenu from "./AccountMenu";
 
 const Navbar: React.FC = () => {
-  // Wikimedia color palette
-  const wikiBlue = "#3366cc";
   const wikiGray = "#f8f9fa";
   
   return (
@@ -99,18 +98,7 @@ const Navbar: React.FC = () => {
           >
             Help
           </Button>
-          <Button 
-            variant="contained" 
-            sx={{ 
-              ml: 1,
-              backgroundColor: wikiBlue,
-              "&:hover": {
-                backgroundColor: "#2a4b8d"
-              }
-            }}
-          >
-            Login
-          </Button>
+          <AccountMenu />
         </Box>
       </Toolbar>
     </AppBar>
