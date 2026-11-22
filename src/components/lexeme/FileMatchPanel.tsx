@@ -23,6 +23,7 @@ import { redirectToWikimediaLogin } from "../../auth/login";
 import { clearPendingMatch, readPendingMatch, savePendingMatch } from "../../auth/pendingMatch";
 import { readToken } from "../../auth/session";
 import AudioPlayer from "../audio/AudioPlayer";
+import LicenceNotice from "../licence-notice";
 import {
   addPronunciation,
   apiErrorMessage,
@@ -452,6 +453,7 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
           <Typography variant="body2">
             Language {langQid || "missing QID"}
           </Typography>
+          <LicenceNotice />
           {postError && (
             <Alert severity="error" sx={{ mt: 2 }}>
               {postError}
