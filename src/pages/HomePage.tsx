@@ -7,6 +7,7 @@ import LanguageSelect, { languageCode } from "../components/lexeme/LanguageSelec
 import PronunciationFileList from "../components/lexeme/PronunciationFileList";
 import { apiErrorMessage, getCommonsFiles, getLanguages } from "../services/api";
 import type { CommonsFile, Language } from "../services/types";
+import { readLastLanguage, saveLastLanguage } from "../utils/Language";
 
 const FILE_PAGE_SIZE = 20;
 
@@ -36,13 +37,20 @@ const HomePage: React.FC = () => {
         }
         setLanguages(rows);
         const pending = readPendingMatch();
-        if (!pending) {
-          return;
+        if (pending) {
+          const match = rows.find((language) => languageCode(language) === pending.lang);
+          if (match) {
+            setSelectedLanguage(match);
+            setSelectedTitle(pending.file.title);
+            return;
+          }
         }
-        const match = rows.find((language) => languageCode(language) === pending.lang);
-        if (match) {
-          setSelectedLanguage(match);
-          setSelectedTitle(pending.file.title);
+        const lastLangCode = readLastLanguage();
+        if (lastLangCode) {
+          const match = rows.find((language) => languageCode(language) === lastLangCode);
+          if (match) {
+            setSelectedLanguage(match);
+          }
         }
       })
       .catch((error: unknown) => {
@@ -141,7 +149,10 @@ const HomePage: React.FC = () => {
           languages={languages}
           value={selectedLanguage}
           loading={languagesLoading}
-          onChange={setSelectedLanguage}
+          onChange={(next) => {
+            setSelectedLanguage(next);
+            saveLastLanguage(next ? languageCode(next) : null);
+          }}
         />
       </Box>
 
