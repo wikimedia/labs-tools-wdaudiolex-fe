@@ -4,6 +4,7 @@ import {
   Alert,
   Box,
   Button,
+  Chip,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -362,7 +363,28 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
                 sx={{ alignItems: "flex-start", border: "1px solid #eaecf0", borderRadius: 1, mb: 1 }}
               >
                 <ListItemText
-                  primary={primary}
+                  primary={
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                      <span>{primary}</span>
+                      {candidate.confidence && (
+                        <Chip
+                          label={candidate.confidence}
+                          size="small"
+                          color={candidate.confidence === "exact" ? "success" : "default"}
+                          sx={{ textTransform: "capitalize", height: 20, fontSize: "0.75rem" }}
+                        />
+                      )}
+                      {candidate.already_has_audio && (
+                        <Chip
+                          label="already has audio"
+                          size="small"
+                          color="warning"
+                          variant="outlined"
+                          sx={{ height: 20, fontSize: "0.75rem" }}
+                        />
+                      )}
+                    </Box>
+                  }
                   secondary={
                     <>
                       <Typography component="span" variant="body2" sx={{ display: "block", color: "#202122" }}>
