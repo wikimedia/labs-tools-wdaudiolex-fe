@@ -3,12 +3,14 @@ import {
   Alert,
   Box,
   CircularProgress,
+  Link,
   List,
   ListItemButton,
   ListItemText,
 } from "@mui/material";
 
 import type { CommonsFile } from "../../services/types";
+import { commonsFileUrl } from "../../utils/urls";
 import { displayWord } from "../../utils/words";
 
 interface PronunciationFileListProps {
@@ -61,7 +63,19 @@ const PronunciationFileList: React.FC<PronunciationFileListProps> = ({
               >
                 <ListItemText
                   primary={word}
-                  secondary={`${speaker} · ${file.title}`}
+                  secondary={
+                    <>
+                      <span>{speaker} · </span>
+                      <Link
+                        href={commonsFileUrl(file.title)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        {file.title}
+                      </Link>
+                    </>
+                  }
                 />
               </ListItemButton>
             );

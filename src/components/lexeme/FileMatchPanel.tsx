@@ -28,6 +28,7 @@ import {
   matchLexemes,
 } from "../../services/api";
 import type { CommonsFile, FormCandidate } from "../../services/types";
+import { commonsFileUrl, wikidataFormUrl } from "../../utils/urls";
 import { displayWord } from "../../utils/words";
 
 const NO_FALLBACKS: string[] = [];
@@ -39,13 +40,6 @@ interface FileMatchPanelProps {
   languageLabel: string;
 }
 
-function lexemeIdFromForm(formId: string): string {
-  return formId.replace(/-F.*$/, "");
-}
-
-function wikidataFormUrl(formId: string): string {
-  return `https://www.wikidata.org/wiki/Lexeme:${lexemeIdFromForm(formId)}`;
-}
 
 function wikidataSearchUrl(word: string): string {
   const params = new URLSearchParams({
@@ -209,7 +203,14 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
           {shownWord}
         </Typography>
         <Typography variant="body2" sx={{ color: "#72777d", mb: 1.5 }}>
-          {file.speaker || "Unknown speaker"}
+          {file.speaker || "Unknown speaker"} ·{" "}
+          <Link
+            href={commonsFileUrl(file.title)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {file.title}
+          </Link>
         </Typography>
         {canPlay && file.url ? (
           <AudioPlayer
@@ -378,10 +379,28 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
         <DialogTitle>Match this recording</DialogTitle>
         <DialogContent>
           <Typography variant="body2" sx={{ mb: 1 }}>
-            Form {selected?.form_id}
+            Form{" "}
+            {selected?.form_id ? (
+              <Link
+                href={wikidataFormUrl(selected.form_id)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {selected.form_id}
+              </Link>
+            ) : (
+              "none"
+            )}
           </Typography>
           <Typography variant="body2" sx={{ mb: 1 }}>
-            File {file.title}
+            File{" "}
+            <Link
+              href={commonsFileUrl(file.title)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {file.title}
+            </Link>
           </Typography>
           <Typography variant="body2">
             Language {langQid || "missing QID"}
