@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 
+import { redirectToWikimediaLogin } from "../auth/login";
 import { readSession } from "../auth/session";
 import { apiErrorMessage, getContributions } from "../services/api";
 import type { ContributionRecord } from "../services/types";
@@ -49,6 +50,21 @@ const ContributionsPage: React.FC = () => {
   const [loading, setLoading] = useState(Boolean(username));
   const [error, setError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
+
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
+
+  const handleLogin = () => {
+    if (loginLoading) {
+      return;
+    }
+    setLoginLoading(true);
+    setLoginError(null);
+    redirectToWikimediaLogin().catch((err: unknown) => {
+      setLoginError(apiErrorMessage(err));
+      setLoginLoading(false);
+    });
+  };
 
   useEffect(() => {
     if (!username) {
@@ -100,9 +116,21 @@ const ContributionsPage: React.FC = () => {
 
       {!username && (
         <Paper variant="outlined" sx={{ p: 3, backgroundColor: "#f8f9fa", borderColor: "#a2a9b1" }}>
-          <Typography sx={{ color: "#72777d" }}>
-            Sign in to see your contributions.
+          <Typography sx={{ color: "#72777d", mb: 2 }}>
+            Please log in with your Wikimedia account to see your contributions.
           </Typography>
+          {loginError && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {loginError}
+            </Alert>
+          )}
+          <Button
+            variant="contained"
+            onClick={handleLogin}
+            disabled={loginLoading}
+          >
+            {loginLoading ? "Logging in…" : "Log in"}
+          </Button>
         </Paper>
       )}
 
@@ -131,7 +159,7 @@ const ContributionsPage: React.FC = () => {
       {username && !loading && !error && rows.length === 0 && (
         <Paper variant="outlined" sx={{ p: 3, backgroundColor: "#f8f9fa", borderColor: "#a2a9b1" }}>
           <Typography sx={{ color: "#72777d" }}>
-            No contributions yet.
+            There are no matches yet.
           </Typography>
         </Paper>
       )}
