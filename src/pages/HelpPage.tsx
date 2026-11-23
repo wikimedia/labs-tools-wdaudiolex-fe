@@ -38,22 +38,22 @@ const HelpPage: React.FC = () => {
         <ol>
           <li>
             <Typography variant="body1" sx={{ mb: 1 }}>
-              <strong>Select a category</strong> of audio files from Commons.
+              <strong>Choose a language</strong> from the language selector to load available pronunciation files from Commons.
             </Typography>
           </li>
           <li>
             <Typography variant="body1" sx={{ mb: 1 }}>
-              <strong>Enter a pattern</strong> to match lexemes with audio files.
+              <strong>Choose a file</strong> from the pronunciation list to listen to the audio recording.
             </Typography>
           </li>
           <li>
             <Typography variant="body1" sx={{ mb: 1 }}>
-              <strong>Review the matches</strong> and select the correct ones.
+              <strong>Search</strong> Wikidata for lexeme forms matching the spoken word.
             </Typography>
           </li>
           <li>
             <Typography variant="body1" sx={{ mb: 1 }}>
-              <strong>Add the pronunciation statement</strong> to link the audio with the lexeme.
+              <strong>Match</strong> the recording by selecting the correct candidate form and confirming to publish the pronunciation statement (P443) on Wikidata.
             </Typography>
           </li>
         </ol>
@@ -77,31 +77,11 @@ const HelpPage: React.FC = () => {
 
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="subtitle1">How does pattern matching work?</Typography>
+          <Typography variant="subtitle1">How does matching work?</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography variant="body1" paragraph>
-            Pattern matching uses simple wildcards to find lexemes that match audio file names:
-          </Typography>
-          <ul>
-            <li>
-              <Typography variant="body1" sx={{ fontFamily: "monospace" }}>
-                *.mp3 — Matches all MP3 files
-              </Typography>
-            </li>
-            <li>
-              <Typography variant="body1" sx={{ fontFamily: "monospace" }}>
-                en-*.ogg — Matches English .ogg files
-              </Typography>
-            </li>
-            <li>
-              <Typography variant="body1" sx={{ fontFamily: "monospace" }}>
-                [language]-[word].wav — Replace with actual values
-              </Typography>
-            </li>
-          </ul>
           <Typography variant="body1">
-            The matching algorithm ignores case sensitivity and punctuation when comparing.
+            After choosing a language and selecting a recording, the tool searches Wikidata for lexeme forms that match the spoken word. You can also search for different words manually. Once you find the matching form candidate, click &quot;Match audio&quot; and confirm to publish the statement to Wikidata.
           </Typography>
         </AccordionDetails>
       </Accordion>
