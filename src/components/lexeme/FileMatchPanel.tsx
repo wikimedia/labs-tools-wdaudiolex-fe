@@ -445,11 +445,13 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
         </DialogActions>
       </Dialog>
 
-      <Dialog open={confirmOpen} onClose={dismissConfirm}>
-        <DialogTitle>Match this recording</DialogTitle>
+      <Dialog open={confirmOpen} onClose={dismissConfirm} aria-labelledby="match-confirm-dialog-title">
+        <DialogTitle id="match-confirm-dialog-title">Match this recording</DialogTitle>
         <DialogContent>
           <Typography variant="body2" sx={{ mb: 1 }}>
-            Form{" "}
+            <Typography component="strong" sx={{ fontWeight: 600, mr: 0.5 }}>
+              Form:
+            </Typography>
             {selected?.form_id ? (
               <Link
                 href={wikidataFormUrl(selected.form_id)}
@@ -463,7 +465,9 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
             )}
           </Typography>
           <Typography variant="body2" sx={{ mb: 1 }}>
-            File{" "}
+            <Typography component="strong" sx={{ fontWeight: 600, mr: 0.5 }}>
+              File:
+            </Typography>
             <Link
               href={commonsFileUrl(file.title)}
               target="_blank"
@@ -473,7 +477,10 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
             </Link>
           </Typography>
           <Typography variant="body2">
-            Language {langQid || "missing QID"}
+            <Typography component="strong" sx={{ fontWeight: 600, mr: 0.5 }}>
+              Language:
+            </Typography>
+            {langQid || "missing QID"}
           </Typography>
           <LicenceNotice />
           {postError && (
@@ -483,7 +490,9 @@ const FileMatchPanel: React.FC<FileMatchPanelProps> = ({
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={dismissConfirm} disabled={posting}>Cancel</Button>
+          <Button onClick={dismissConfirm} disabled={posting} autoFocus>
+            Cancel
+          </Button>
           <Button variant="contained" onClick={handleConfirm} disabled={posting || !langQid}>
             {posting ? "Saving…" : "Match audio"}
           </Button>
